@@ -1,0 +1,96 @@
+{
+  "name": "react-playground",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "@types/classnames": "^2.2.9",
+    "@types/debounce-promise": "^3.1.1",
+    "@types/jest": "24.0.23",
+    "@types/js-cookie": "^2.2.5",
+    "@types/lodash": "^4.14.147",
+    "@types/node": "12.12.7",
+    "@types/react": "16.9.11",
+    "@types/react-dom": "16.9.4",
+    "@types/react-js-pagination": "^3.0.3",
+    "@types/react-resize-detector": "^4.2.0",
+    "@types/react-router-dom": "^5.1.2",
+    "@types/react-select": "^3.0.11",
+    "@types/react-text-mask": "^5.4.6",
+    "@types/react-toast-notifications": "^2.0.0",
+    "@types/reactstrap": "^8.4.1",
+    "@types/uuid": "^3.4.6"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.27",
+    "@fortawesome/free-solid-svg-icons": "^5.12.1",
+    "@fortawesome/react-fontawesome": "^0.1.8",
+    "@microsoft/microsoft-graph-client": "^2.0.0",
+    "@nivo/core": "^0.61.0",
+    "@nivo/generators": "^0.61.0",
+    "@nivo/legends": "^0.61.1",
+    "@nivo/line": "^0.61.1",
+    "axios": "^0.19.0",
+    "bootstrap": "^4.3.1",
+    "classnames": "^2.2.6",
+    "cypress": "^5.0.0",
+    "formik": "^2.0.4",
+    "install": "^0.13.0",
+    "js-cookie": "^2.2.1",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "msal": "^1.1.3",
+    "node-sass": "^4.13.0",
+    "npm": "^6.13.1",
+    "react": "^16.11.0",
+    "react-aad-msal": "^2.1.1",
+    "react-block-ui": "^1.3.2",
+    "react-dom": "^16.11.0",
+    "react-fast-compare": "^2.0.4",
+    "react-js-pagination": "^3.0.2",
+    "react-loading-skeleton": "^2.0.1",
+    "react-resize-detector": "^4.2.1",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.2.0",
+    "react-select": "^3.1.0",
+    "react-table": "^6.10.3",
+    "react-text-mask": "^5.4.3",
+    "react-toast-notifications": "^2.2.5",
+    "react-vis": "^1.11.7",
+    "reactstrap": "^8.4.1",
+    "typescript": "3.7.2",
+    "use-react-router": "^1.0.7",
+    "uuid": "^3.3.3",
+    "wait-on": "^4.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start & wait-on http://localhost:3000",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "cypress-info": "cypress info",
+    "cypress-verify": "cypress verify",
+    "cypress-open": "cypress open",
+    "cypress-run": "cypress run --spec 'cypress/integration/ci-cd/**/*' --config video=false"
+  },
+  "eslintConfig": {
+    "extends": "react-app",
+    "rules": {
+      "no-console": "warn",
+      "no-debugger": "warn",
+      "react-hooks/exhaustive-deps": "off",
+      "jsx-a11y/anchor-is-valid": "off"
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

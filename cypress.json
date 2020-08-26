@@ -1,0 +1,7 @@
+{
+  "pluginsFile": false,
+  "fixturesFolder": false,
+  "env": {
+    "environment": "development"
+  }
+}

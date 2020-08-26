@@ -1,0 +1,29 @@
+.portlet {
+  @include portlet-container;
+
+  &.has-table {
+    min-width: 700px;
+  }
+
+    position: relative;
+    background-color: #fff;
+    padding: 30px;
+
+    .portlet-header {
+        .portlet-header-actions {
+            float: right;
+            
+            a:not(:last-child), button:not(:last-child) {
+              margin-right: 0.5em;  
+            }
+        }
+    }
+
+    .portlet-filter {
+        
+    }
+
+    .portlet-body {
+        
+    }
+}

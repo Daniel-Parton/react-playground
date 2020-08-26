@@ -1,0 +1,17 @@
+.icon-with-theme {
+    &.icon-primary {
+        color: theme-color('primary');
+    }
+    
+    &.icon-secondary {
+        color: theme-color('secondary');
+    }
+    
+    &.icon-danger {
+        color: theme-color('danger');
+    }
+    
+    &.icon-success {
+        color: theme-color('success');
+    }
+}

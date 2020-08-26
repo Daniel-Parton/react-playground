@@ -1,0 +1,25 @@
+$tabs-border-color: theme-color('primary');
+$tabs-border-width: 2px;
+.nav-tabs {
+  border-bottom: $tabs-border-width solid $tabs-border-color;
+
+  &.tabs-full-width {
+    flex-wrap: nowrap;
+
+    .nav-item {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  .nav-item {
+    margin-bottom: -$tabs-border-width;
+    .nav-link {
+      border-width: $tabs-border-width;
+      &.active {
+        border-color: $tabs-border-color;
+        background-color: $body-bg;
+        border-bottom-color: $body-bg; 
+      }
+    }
+  }
+}
