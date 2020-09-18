@@ -1,19 +1,19 @@
 import { Client } from '@microsoft/microsoft-graph-client';
 import { UserAgentApplication } from 'msal';
-import getSettings from '../settings';
+// import getSettings from '../settings';
 
-const settings = getSettings();
+// const settings = getSettings();
 
-const getUserAgentApplication = (authClientId: string) => new UserAgentApplication({
-  auth: {
-    clientId: authClientId,
-    redirectUri: settings.appUrl
-  },
-  cache: {
-    cacheLocation: "localStorage",
-    storeAuthStateInCookie: true
-  }
-});
+// const getUserAgentApplication = (authClientId: string) => new UserAgentApplication({
+//   auth: {
+//     clientId: authClientId,
+//     redirectUri: settings.appUrl
+//   },
+//   cache: {
+//     cacheLocation: "localStorage",
+//     storeAuthStateInCookie: true
+//   }
+// });
 
 async function getClient(userAgent: UserAgentApplication) {
   const accessToken = await userAgent.acquireTokenSilent({

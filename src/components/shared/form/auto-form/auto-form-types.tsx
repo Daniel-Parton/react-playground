@@ -12,6 +12,7 @@ export type AutoFormInputType =
   | 'PasswordInput'
   | 'Checkbox'
   | 'Select'
+  | 'MobilePhone'
   | 'MultiSelect'
   | 'Captcha'
   | 'TagInput'

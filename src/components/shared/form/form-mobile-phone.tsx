@@ -9,19 +9,19 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { BaseFormInput } from "./form-types";
 import FormInputSkeleton from "../loading-skeleton/form-input-skeleton";
 
-export interface FormDateInputProps extends BaseFormInput {
+export interface FormMobilePhoneProps<TFormValues = any> extends BaseFormInput<TFormValues> {
   iconLeft?: IconProp
   iconRight?: IconProp
   inputClassName?: string
+  placeholder?: string
   afterInputContent?: any
   showLoadingSkeleton?: boolean
-  placeholder?: string
 
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void
 }
 
-const FormDateInput: React.FC<FormDateInputProps> = (props) => {
+function FormMobilePhone<TFormValues = any>(props: FormMobilePhoneProps<TFormValues>) {
   const { name, iconLeft, iconRight, className, inputClassName,
     label, error, showError, afterInputContent, showLoadingSkeleton, ...rest } = props;
 
@@ -45,10 +45,10 @@ const FormDateInput: React.FC<FormDateInputProps> = (props) => {
       {label && <Label for={name as string}>{label}</Label>}
       <div className='d-flex'>
         <MaskedInput
-          mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
+          mask={[/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/]}
           name={name as string}
           {...rest}
-          placeholder='DD/MM/YYYY'
+          placeholder='0___ ___ ___'
           render={(ref, props) => (
             <BootstrapInput
               innerRef={ref}
@@ -67,4 +67,4 @@ const FormDateInput: React.FC<FormDateInputProps> = (props) => {
   );
 }
 
-export default FormDateInput;
+export default FormMobilePhone;

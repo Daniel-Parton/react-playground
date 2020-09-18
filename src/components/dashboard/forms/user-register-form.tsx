@@ -1,11 +1,11 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { useToasts } from 'react-toast-notifications';
+
 import { nameOf } from '../../../helpers/object-helper';
 import ToastHelper from '../../../helpers/toast-helper';
-
 import DashboardPage from '../../hoc/dashboard-page';
-import { AutoForm, CardSimple, TabPages } from '../../shared';
+import { AutoForm, CardSimple } from '../../shared';
 import { email, matchField, maxCharLength, required } from '../../shared/form/validators';
 
 interface LoginFormProps extends RouteComponentProps {
@@ -14,7 +14,7 @@ interface LoginFormProps extends RouteComponentProps {
 interface RegisterFormValues {
   firstName: string
   lastName: string
-  phone: string
+  mobile: string
   email: string
   password: string
   passwordConfirm: string
@@ -36,7 +36,7 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
           },
           {
             columns: [
-              { largeSize: 6, field: { name: 'phone', type: 'TextInput', display: 'Phone number', options: { validators: [required(), maxCharLength(100)] } } },
+              { largeSize: 6, field: { name: 'mobile', type: 'MobilePhone', display: 'Mobile', options: { validators: [required(), maxCharLength(100)] } } },
               { largeSize: 6, field: { name: 'email', type: 'TextInput', display: 'Email', options: { validators: [required(), email(), maxCharLength(200)] } } },
             ]
           },

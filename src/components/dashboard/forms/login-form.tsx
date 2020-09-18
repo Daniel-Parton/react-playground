@@ -4,7 +4,7 @@ import { useToasts } from 'react-toast-notifications';
 import ToastHelper from '../../../helpers/toast-helper';
 
 import DashboardPage from '../../hoc/dashboard-page';
-import { AutoForm, CardSimple, TabPages } from '../../shared';
+import { AutoForm, CardSimple } from '../../shared';
 import { email, maxCharLength, required } from '../../shared/form/validators';
 
 interface LoginFormProps extends RouteComponentProps {

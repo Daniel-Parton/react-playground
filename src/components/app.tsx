@@ -22,7 +22,7 @@ export const useAppContext = () => useContext(AppContext);
 
 const App: React.FC<RouteComponentProps> = () => {
 
-  const [state, setState] = useState<AppContextGetterProps>({
+  const [state] = useState<AppContextGetterProps>({
     loadingMessage: undefined,
   });
 
