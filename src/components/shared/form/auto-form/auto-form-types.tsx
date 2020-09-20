@@ -12,6 +12,7 @@ export type AutoFormInputType =
   | 'PasswordInput'
   | 'Checkbox'
   | 'Select'
+  | 'MobilePhone'
   | 'MultiSelect'
   | 'Captcha'
   | 'TagInput'
@@ -75,7 +76,9 @@ export interface AutoFormProps<TData = any, TSuccessResponse = any> {
   rows: AutoFormRow<TData>[]
   onSubmitSuccess: (response: TSuccessResponse) => void
   onSubmitError?: (error: AxiosError<ApiError>) => void
-  toastOnError?: boolean
+  toastOnSubmitError?: boolean
+  toastOnValidationError?: boolean
+  toastValidationErrorMessage?: string
   onSubmitPromise: (formValues: TData) => Promise<TSuccessResponse>
   hideBack?: boolean
   additionalButtonsFunc?: (formikProps: FormikProps<TData>) => ButtonProps[]

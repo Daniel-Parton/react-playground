@@ -7,7 +7,7 @@ export interface FormikDateInputProps extends FormDateInputProps {
 	formikProps: FormikProps<any>
 }
 
-const FormikDateInput: React.FC<FormDateInputProps> = ({ formikProps, name, onChange, onBlur, ...rest }) => {
+const FormikDateInput: React.FC<FormikDateInputProps> = ({ formikProps, name, onChange, onBlur, ...rest }) => {
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (formikProps && formikProps.handleChange) formikProps.handleChange(event);
 		if (onChange) onChange(event);

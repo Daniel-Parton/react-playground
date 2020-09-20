@@ -1,9 +1,7 @@
 /// <reference types="cypress"/>
 /// <reference path="../../../../support/index.d.ts" />
 
-import React from 'react';
-
-describe('Dashboard - Tab Pages', () => {
+describe('Dashboard - Tabs', () => {
   it('Browse to tab pages', () => cy.visit('http://localhost:3000/dashboard/tabs'));
 
   describe('when click on Tab 2', () => {

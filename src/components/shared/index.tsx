@@ -28,6 +28,7 @@ import FormDateInput from './form/form-date-input';
 import FormDisplay from './form/form-display';
 import FormError from './form/form-error';
 import FormInput from './form/form-input';
+import FormMobilePhone from './form/form-mobile-phone';
 import FormMultiSelect from './form/form-multi-select';
 import FormSelect from './form/form-select';
 import FormTagDisplay from './form/form-tag-display';
@@ -42,6 +43,7 @@ import FormikCheckBox from './form/formik/formik-check-box'
 import FormikDateInput from './form/formik/formik-date-input'
 import * as FormikHelper from './form/formik/formik-helper'
 import FormikInput from './form/formik/formik-input'
+import FormikMobilePhone from './form/formik/formik-mobile-phone'
 import FormikMultiSelect from './form/formik/formik-multi-select'
 import FormikSelect from './form/formik/formik-select'
 import FormikSideEffects from './form/formik/formik-side-effects'
@@ -127,6 +129,7 @@ export {
   FormDisplay,
   FormError,
   FormInput,
+  FormMobilePhone,
   FormMultiSelect,
   FormSelect,
   FormTagInput,
@@ -141,6 +144,7 @@ export {
   FormikDateInput,
   FormikHelper,
   FormikInput,
+  FormikMobilePhone,
   FormikMultiSelect,
   FormikSelect,
   FormikSideEffects,
