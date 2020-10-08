@@ -1,3 +1,4 @@
+import { isNumber } from "lodash";
 import moment, { Moment } from "moment";
 
 export const dateFormat = 'DD/MM/YYYY';
@@ -17,7 +18,8 @@ export const getToday = () => {
   return today
 }
 
-export const isValidMoment = (value: string) => {
+export const isValidMoment = (value: any) => {
+  if (isNumber(value)) return false;
   return value && moment(value).isValid();
 }
 

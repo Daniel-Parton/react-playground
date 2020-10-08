@@ -12,7 +12,7 @@ interface FormikSideEffectsProps {
 	onChange?: (values: any) => void;
 	parentsubmitTriggerCount?: number;
 	focusInputOnSubmitFail?: boolean;
-	focusFirstInputOnInit?: boolean;
+	noFocusFirstInputOnInit?: boolean;
 	logOnChange?: boolean
 }
 
@@ -22,7 +22,7 @@ interface ErrorFinderDto {
 }
 
 const FormikSideEffects: React.FC<FormikSideEffectsProps & BaseFormikContextProps> = (props) => {
-	const { formId, formik, onChange, parentsubmitTriggerCount, focusInputOnSubmitFail, logOnChange } = props;
+	const { formId, formik, onChange, parentsubmitTriggerCount, focusInputOnSubmitFail, noFocusFirstInputOnInit, logOnChange } = props;
 
 	const getFormElements = (keyedFormStructure: any) => {
 		return Object.keys(keyedFormStructure)
@@ -37,15 +37,18 @@ const FormikSideEffects: React.FC<FormikSideEffectsProps & BaseFormikContextProp
 	//Should be focussing on first input but will need a way to know what
 	//field is the first one and how to focus on it
 	React.useEffect(() => {
-		setTimeout(() => {
-			if (formik.values) {
-				const elements = getFormElements(formik.values);
-				if (elements && elements.length) {
-					const topMost = orderBy(elements, (e) => e.top, 'asc')[0];
-					topMost.element.focus();
+		if (!noFocusFirstInputOnInit) {
+			setTimeout(() => {
+				if (formik.values) {
+					const elements = getFormElements(formik.values);
+					if (elements && elements.length) {
+						const topMost = orderBy(elements, (e) => e.top, 'asc')[0];
+						topMost.element.focus();
+					}
 				}
-			}
-		}, 300);
+			}, 300);
+		}
+
 	}, []);
 
 	React.useEffect(

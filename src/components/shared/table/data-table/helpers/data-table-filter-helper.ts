@@ -96,6 +96,17 @@ const applyDateFilter = (columnValue: any, filterValue: string, type: DateFilter
   }
 }
 
+type NumberFilterType = 'Min' | 'Max' | 'Equals';
+const applyNumberFilter = (columnValue: any, filterValue: number, type: NumberFilterType) => {
+  if (columnValue === null || columnValue === undefined) return false;
+  if (!ObjectHelper.isNumber(columnValue) || !ObjectHelper.isNumber(filterValue)) return false;
+  switch (type) {
+    case 'Min': return columnValue >= filterValue;
+    case 'Max': return columnValue <= filterValue;
+    case 'Equals': return columnValue === filterValue;
+  }
+}
+
 //columnFilters should be an object of { [keyOf column]: value: DataTableFilterValues }
 const filterForColumnFilters = (result: FilterDataResult, columns: DataTableColumnDefinition<any>[], columnFilters?: any) => {
   if (!columnFilters) return result;
@@ -119,6 +130,11 @@ const filterForColumnFilters = (result: FilterDataResult, columns: DataTableColu
       //Date Filters
       if (passesFilter && filter.minDate) passesFilter = applyDateFilter(columnValue, filter.minDate, 'Min');
       if (passesFilter && filter.maxDate) passesFilter = applyDateFilter(columnValue, filter.maxDate, 'Max');
+
+      //Number Filters
+      if (passesFilter && (filter.minNumber !== null && filter.minNumber !== undefined)) passesFilter = applyNumberFilter(columnValue, filter.minNumber, 'Min');
+      if (passesFilter && (filter.maxNumber !== null && filter.maxNumber !== undefined)) passesFilter = applyNumberFilter(columnValue, filter.maxNumber, 'Max');
+      if (passesFilter && (filter.numberEquals !== null && filter.numberEquals !== undefined)) passesFilter = applyNumberFilter(columnValue, filter.numberEquals, 'Equals');
 
       return passesFilter;
     });

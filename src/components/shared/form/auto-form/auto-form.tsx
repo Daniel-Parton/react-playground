@@ -15,7 +15,7 @@ function AutoForm<TData = any, TSuccessResponse = any>(props: AutoFormProps<TDat
 
   const { initialValues, onSubmitPromise, onSubmitSuccess, onSubmitError, toastOnSubmitError, toastOnValidationError,
     toastValidationErrorMessage, rows, onBack, header, submitButtonText, inititalising, hideBack, additionalButtonsFunc,
-    debug, formId, submittingMessage, className, variant, headerCentre, topContent, onChange } = props;
+    debug, formId, submittingMessage, className, variant, headerCentre, topContent, onChange, noFocusOnInit } = props;
   const initial: any = initialValues || {};
 
   const toastHelper = new ToastHelper(useToasts());
@@ -87,7 +87,7 @@ function AutoForm<TData = any, TSuccessResponse = any>(props: AutoFormProps<TDat
                 {additionalButtonsFunc && additionalButtonsFunc(formikProps).map((p) => <Button {...p} />)}
               </div>
             </Form>
-            <FormikSideEffects focusInputOnSubmitFail logOnChange={debug} onChange={onChange} />
+            <FormikSideEffects focusInputOnSubmitFail noFocusFirstInputOnInit={noFocusOnInit} logOnChange={debug} onChange={onChange} />
           </BlockUi>
         )
       }}

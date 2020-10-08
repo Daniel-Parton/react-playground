@@ -10,7 +10,7 @@ import { ButtonProps } from '../../../buttons/button';
 import * as FilterHelper from '../helpers/data-table-filter-helper';
 import { AutoFormPropertyDefinition } from '../../../form/auto-form/auto-form-types';
 import { OptionModel } from '../../../../../types/shared-types';
-import { date, dateLessThanOrEqualField, dateGreaterThanOrEqualField } from '../../../form/validators';
+import { number, numberGreaterThanField, numberLessThanField, date, dateLessThanOrEqualField, dateGreaterThanOrEqualField } from '../../../form/validators';
 
 export interface DataTableFilterValues {
   stringStartsWith?: string
@@ -19,6 +19,9 @@ export interface DataTableFilterValues {
   stringEquals?: string
   minDate?: string
   maxDate?: string
+  numberEquals?: number
+  minNumber?: number
+  maxNumber?: number
   options?: any[]
 }
 
@@ -45,17 +48,25 @@ function DataTableRowFilter<T>(props: DataTableRowFilterProps<T>) {
   const addStringEndsWith = (fields: AutoFormPropertyDefinition<DataTableFilterValues>[]) => fields.push({ name: 'stringEndsWith', type: 'TextInput', options: { placeholder: 'Ends With' } });
   const addStringContains = (fields: AutoFormPropertyDefinition<DataTableFilterValues>[]) => fields.push({ name: 'stringContains', type: 'TextInput', options: { placeholder: 'Contains' } });
   const addStringEquals = (fields: AutoFormPropertyDefinition<DataTableFilterValues>[]) => fields.push({ name: 'stringEquals', type: 'TextInput', options: { placeholder: 'Equals' } });
-  const addOptions = (fields: AutoFormPropertyDefinition<DataTableFilterValues>[], options: OptionModel<any>[]) => fields.push({ name: 'options', type: 'MultiSelect', display: 'Equals', options: { options: options } });
-  const addDateRange = (fields: AutoFormPropertyDefinition<DataTableFilterValues>[]) => {
-    fields.push({ name: 'minDate', display: 'Min Date', type: 'DateInput', options: { validators: [date(), dateLessThanOrEqualField<DataTableFilterValues>('maxDate')] } });
-    fields.push({ name: 'maxDate', display: 'Max Date', type: 'DateInput', options: { validators: [date(), dateGreaterThanOrEqualField<DataTableFilterValues>('minDate')] } });
-  };
+
   const addStringAll = (fields: AutoFormPropertyDefinition<DataTableFilterValues>[]) => {
     addStringStartsWith(fields);
     addStringEndsWith(fields);
     addStringContains(fields);
     addStringEquals(fields);
   };
+
+  const addOptions = (fields: AutoFormPropertyDefinition<DataTableFilterValues>[], options: OptionModel<any>[]) => fields.push({ name: 'options', type: 'MultiSelect', display: 'Equals', options: { options: options } });
+  const addDateRange = (fields: AutoFormPropertyDefinition<DataTableFilterValues>[]) => {
+    fields.push({ name: 'minDate', display: 'Min Date', type: 'DateInput', options: { validators: [date(), dateLessThanOrEqualField<DataTableFilterValues>('maxDate')] } });
+    fields.push({ name: 'maxDate', display: 'Max Date', type: 'DateInput', options: { validators: [date(), dateGreaterThanOrEqualField<DataTableFilterValues>('minDate')] } });
+  };
+
+  const addNumberEquals = (fields: AutoFormPropertyDefinition<DataTableFilterValues>[]) => fields.push({ name: 'numberEquals', type: 'NumberInput' })
+  const addNumberRange = (fields: AutoFormPropertyDefinition<DataTableFilterValues>[]) => {
+    fields.push({ name: 'minNumber', type: 'NumberInput', options: { placeholder: 'Min', validators: [number(), numberLessThanField<DataTableFilterValues>('maxNumber')] } });
+    fields.push({ name: 'maxNumber', type: 'NumberInput', options: { placeholder: 'Max', validators: [number(), numberGreaterThanField<DataTableFilterValues>('minNumber')] } });
+  }
 
   const fields: AutoFormPropertyDefinition<DataTableFilterValues>[] = [];
   filters.forEach(filter => {
@@ -67,6 +78,8 @@ function DataTableRowFilter<T>(props: DataTableRowFilterProps<T>) {
       case 'StringAll': addStringAll(fields); break;
       case 'Options': addOptions(fields, filter.options?.options ?? []); break;
       case 'DateRange': addDateRange(fields); break;
+      case 'NumberEquals': addNumberEquals(fields); break;
+      case 'NumberRange': addNumberRange(fields); break;
     }
   });
 

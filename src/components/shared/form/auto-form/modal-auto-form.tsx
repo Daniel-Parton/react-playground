@@ -19,7 +19,7 @@ const ModalAutoForm: React.FC<ModalAutoFormProps> = (props) => {
 
   return (
     <ModalSimple header={header} open={open} onClose={onClose}>
-      <AutoForm header={header} key={formKey} {...rest} />
+      <AutoForm key={formKey} {...rest} />
     </ModalSimple>
   )
 }

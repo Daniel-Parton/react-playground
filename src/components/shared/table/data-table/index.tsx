@@ -94,7 +94,7 @@ function DataTable<T>(props: DataTableProps<T>) {
       filters: state.filterValues
     };
     const filterResult = FilterHelper.filterData(data, columns, filterOptions);
-    if (!isEqual(filterResult.shownData, state.shownData)) {
+    if (filterResult.filteredTotal !== state.filteredDataTotal || !isEqual(filterResult.shownData, state.shownData)) {
       setState((ps) => {
         const newState = { ...ps, data: data, shownData: filterResult.shownData, filteredDataTotal: filterResult.filteredTotal, allSelected: false, selectedIds: [] };
         if (pageOptions) {
