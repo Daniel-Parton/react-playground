@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import DataTable, { DataTableColumnDefinition } from './data-table';
 import DataTableActions from './data-table-actions';
@@ -14,65 +14,55 @@ export interface CrudColumn<T> extends DataTableColumnDefinition<T> {
 }
 
 export interface CrudDataTableProps<T> {
+  loading?: boolean
   className?: string
   dataIdProperty: keyof T
   data: T[]
   columns: CrudColumn<T>[]
-  entityName: string
   addPromise: (data: T) => Promise<T>
   editPromise: (data: T) => Promise<T>
   reloadPromise: () => Promise<T[]>
+  addHeader: string
+  editHeader: string
 }
 
-export interface CrudDataTableState<T> {
-  tableData: T[]
-  modal: {
-    open: boolean
-    mode: 'edit' | 'add'
-    data?: T
-  }
+export interface ModalState<T> {
+  open: boolean
+  mode: 'edit' | 'add'
+  data?: T
 }
 
 function CrudDataTable<T>(props: CrudDataTableProps<T>) {
 
-  const { className, columns, dataIdProperty, data, entityName, addPromise, editPromise, reloadPromise } = props;
+  const { className, columns, dataIdProperty, data, addHeader, editHeader, addPromise, editPromise, reloadPromise, loading } = props;
 
-  const [state, setState] = useState<CrudDataTableState<T>>({
-    modal: { open: false, mode: 'add' },
-    tableData: [...data]
-  });
+  const [tableData, setTableData] = useState<T[]>([]);
+  const [modalState, setModalState] = useState<ModalState<T>>({ open: false, mode: 'add' });
+
+  useEffect(() => setTableData(data), [data])
 
   const toastHelper = new ToastHelper(useToasts());
-
-  const handleEditClick = (values: T) => {
-    setState((ps) => {
-      const newState = { ...ps };
-      newState.modal.open = true;
-      newState.modal.data = values;
-      newState.modal.mode = 'edit';
-      return newState;
-    });
-  }
+  const handleEditClick = (model: T) => setModalState((ps) => ({ ...ps, open: true, data: model, mode: 'edit' }));
 
   const handleSubmitSuccess = (response: any) => {
-    const isEdit = state.modal.mode === 'edit';
-    const newState = { ...state };
-    if (!isEdit) {
-      newState.tableData.push(response);
-    } else {
-      const index = newState.tableData.findIndex(e => e[dataIdProperty] === response[dataIdProperty]);
-      if (index >= 0) {
-        (newState.tableData as any)[index] = response;
+    const isEdit = modalState.mode === 'edit';
+    setTableData((td) => {
+      if (!isEdit) {
+        td.push(response);
+      } else {
+        const index = td.findIndex(e => e[dataIdProperty] === response[dataIdProperty]);
+        if (index >= 0) td[index] = response;
       }
-    }
-    newState.modal.open = false;
-    setState(newState);
-    toastHelper.success(`${entityName} ${isEdit ? 'Updated' : 'Added'}`);
+      return td;
+    });
+
+    setModalState(ps => ({ ...ps, open: false }));
+    toastHelper.success(`${isEdit ? 'Updated' : 'Added'}`);
   }
 
   async function handleReload() {
     const items = await reloadPromise();
-    setState((ps) => ({ ...ps, tableData: items }));
+    setTableData(items);
   }
 
   const classes = classNames({
@@ -91,17 +81,19 @@ function CrudDataTable<T>(props: CrudDataTableProps<T>) {
   });
 
 
-  const header = state.modal.mode === 'edit' ? `Update ${props.entityName}` : `Add ${props.entityName}`;
+  const header = modalState.mode === 'edit' ? editHeader : addHeader;
+
   return (
     <React.Fragment>
       <DataTable<T>
         className={classes}
+        loading={loading}
         toolbarProps={{
-          onAdd: () => setState((ps) => ({ ...ps, modal: { ...ps.modal, open: true, data: undefined, mode: 'add' } })),
+          onAdd: () => setModalState((ps) => ({ ...ps, open: true, data: undefined, mode: 'add' })),
           onReload: handleReload
         }}
         columns={columns}
-        data={state.tableData}
+        data={tableData}
         actions={[
           DataTableActions.edit(handleEditClick),
         ]}
@@ -109,13 +101,13 @@ function CrudDataTable<T>(props: CrudDataTableProps<T>) {
       />
       <ModalAutoForm
         header={header}
-        submitButtonText={state.modal.mode === 'edit' ? 'Update' : 'Add'}
-        open={state.modal.open}
-        initialValues={state.modal.data}
-        onClose={() => setState((ps) => ({ ...ps, modal: { ...ps.modal, open: !ps.modal.open } }))}
-        onBack={() => setState((ps) => ({ ...ps, modal: { ...ps.modal, open: false } }))}
+        submitButtonText={modalState.mode === 'edit' ? 'Update' : 'Add'}
+        open={modalState.open}
+        initialValues={modalState.data}
+        onClose={() => setModalState((ps) => ({ ...ps, open: !ps.open }))}
+        onBack={() => setModalState((ps) => ({ ...ps, open: false }))}
         onSubmitPromise={(values: T) => {
-          const isEdit = state.modal.mode === 'edit';
+          const isEdit = modalState.mode === 'edit';
           const promise = isEdit ? editPromise : addPromise;
           return promise(values);
         }}

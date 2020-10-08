@@ -25,7 +25,10 @@ function DataTableFilterModal<T>(props: DataTableFilterModal<T>) {
   }
 
   //This shouldnt happen but best to double check
-  if (!FilterHelper.tableHasFilterValues(filterValues)) return null;
+  if (!FilterHelper.tableHasFilterValues(filterValues)) {
+    if (filterModalOpen) setFilterModalOpen(false);
+    return null;
+  }
 
   //Build out rows
   const rows: AutoFormRow[] = [];
@@ -38,7 +41,10 @@ function DataTableFilterModal<T>(props: DataTableFilterModal<T>) {
       const filterOptionValues: ChipProps[] = [];
       if (column) {
         Object.keys(columnFilter).forEach(cKey => {
-          if (columnFilter[cKey]) filterOptionValues.push({ label: `${addSpacesOnCaps(cKey)}: ${columnFilter[cKey]}`, onDelete: () => handleRemoveColumnFilter(key, cKey) });
+          const value = columnFilter[cKey];
+          if (value !== undefined && value !== null && value !== '') {
+            filterOptionValues.push({ label: `${addSpacesOnCaps(cKey)}: ${columnFilter[cKey]}`, onDelete: () => handleRemoveColumnFilter(key, cKey) });
+          }
         });
         if (filterOptionValues.length) {
           if (filterOptionValues.length > 1) filterOptionValues.push({ label: 'Clear All', onDelete: () => removeFilter(key) })

@@ -9,6 +9,7 @@ import { SideBarLinkWithComponentProps } from '../shared/side-bar/side-nav-link'
 
 import TabsPage from './tabs';
 import FormsPage from './forms';
+import TablesPage from './tables';
 
 export interface DashboardProps extends RouteComponentProps { }
 
@@ -28,7 +29,8 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
 
   const navLinks: SideBarLinkWithComponentProps[] = [
     { text: 'Tabs', icon: faBorderAll, target: `${path}/tabs`, component: TabsPage },
-    { text: 'Forms', icon: faClipboardList, target: `${path}/forms`, component: FormsPage }
+    { text: 'Forms', icon: faClipboardList, target: `${path}/forms`, component: FormsPage },
+    { text: 'Tables', icon: faClipboardList, target: `${path}/tables`, component: TablesPage }
   ];
 
 

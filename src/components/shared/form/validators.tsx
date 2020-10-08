@@ -1,7 +1,7 @@
 import moment, { Moment } from 'moment';
 
 import { getToday } from '../../../helpers/date-helper';
-import { isNumber } from '../../../helpers/object-helper';
+import { isEmpty, isNumber } from '../../../helpers/object-helper';
 import { addSpacesOnCaps } from '../../../helpers/string-helper';
 
 export const required = (overrideMessage?: string) => (value: string): string | null => {
@@ -116,6 +116,32 @@ export const matchField = (fieldName: string, overrideMessage?: string) => {
     if (!values) return null;
     if (values[fieldName] !== value) {
       return overrideMessage || `Does not match ${fieldName}`;
+    }
+    return null;
+  };
+};
+
+export function numberLessThanField<T>(fieldName: keyof T, overrideMessage?: string) {
+  return (value: any, values: any): string | null => {
+    if (!values || value === null || value === undefined) return null;
+    const compareValue = values[fieldName];
+    if (compareValue === null || compareValue === undefined) return null;
+    if (!isNumber(value) || !isNumber(compareValue)) return null;
+
+    if (value >= compareValue) {
+      return overrideMessage || `Must be less than ${addSpacesOnCaps(fieldName as string)}`
+    }
+    return null;
+  };
+};
+
+export function numberGreaterThanField<T>(fieldName: keyof T, overrideMessage?: string) {
+  return (value: any, values: any): string | null => {
+    if (!values) return null;
+    const compareValue = values[fieldName];
+    if (isEmpty(compareValue) || !isNumber(value) || !isNumber(values[fieldName])) return null;
+    if (value <= values[fieldName]) {
+      return overrideMessage || `Must be greater than ${addSpacesOnCaps(fieldName as string)}`
     }
     return null;
   };

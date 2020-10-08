@@ -85,4 +85,5 @@ export interface AutoFormProps<TData = any, TSuccessResponse = any> {
   onBack?: () => void
   initialValues?: Partial<TData>
   onChange?: (values: TData) => void
+  noFocusOnInit?: boolean
 }

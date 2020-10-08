@@ -32,6 +32,7 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
         submitButtonText='Login'
         toastOnValidationError
         toastValidationErrorMessage='Whoopsy!'
+        noFocusOnInit
       />
     </CardSimple>
   );
