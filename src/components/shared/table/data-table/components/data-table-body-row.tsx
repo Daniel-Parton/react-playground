@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
-import { DataTableColumnDefinition } from '..';
+import { DataTableColumnDefinition } from '../uncontrolled-data-table';
 import { DataTableAction } from '../../data-table-actions';
 import DataTableBodyCell from './data-table-body-cell';
 import { ButtonConfirm, Button } from '../../../index';

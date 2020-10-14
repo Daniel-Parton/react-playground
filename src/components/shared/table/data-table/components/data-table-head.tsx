@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import classNames from 'classnames';
-import { DataTableColumnDefinition } from '..';
+import { DataTableColumnDefinition } from '../uncontrolled-data-table';
 import DataTableHeadCell from './data-table-head-cell';
 import FormCheckBox from '../../../form/form-check-box';
 import { useDataTableSelectedContext, useDataTableSettersContext } from '../contexts';

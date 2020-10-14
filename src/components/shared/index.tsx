@@ -90,7 +90,7 @@ import StandardPage from './standard-page'
 
 //Table
 import CrudDataTable from './table/crud-data-table'
-import DataTable from './table/data-table'
+import UncontrolledDataTable from './table/data-table/uncontrolled-data-table'
 import DataTableActions from './table/data-table-actions'
 import DataTableToolbar from './table/data-table/components/data-table-toolbar'
 
@@ -193,7 +193,7 @@ export {
 
   //Table
   CrudDataTable,
-  DataTable,
+  UncontrolledDataTable,
   DataTableActions,
   DataTableToolbar,
 

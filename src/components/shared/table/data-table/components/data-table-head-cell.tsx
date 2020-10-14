@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { DataTableColumnDefinition } from '..';
+import { DataTableColumnDefinition } from '../uncontrolled-data-table';
 import { faChevronUp, faFilter } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '../../..';
 import { isEmpty } from '../../../../../helpers/object-helper';

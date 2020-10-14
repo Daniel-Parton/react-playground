@@ -1,5 +1,5 @@
 import { every } from 'lodash';
-import { DataTablePagingOptions, DataTableColumnDefinition } from '../index';
+import { DataTablePagingOptions, DataTableColumnDefinition } from '../uncontrolled-data-table';
 import * as ObjectHelper from '../../../../../helpers/object-helper';
 import * as DateHelper from '../../../../../helpers/date-helper';
 import { DataTableFilterValues } from '../components/data-table-row-filter';

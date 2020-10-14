@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { RouteComponentProps, Route, Redirect } from 'react-router';
-import { faUserTie, faSignOutAlt, faClipboardList, faBorderAll } from '@fortawesome/free-solid-svg-icons';
+import { faUserTie, faSignOutAlt, faClipboardList, faBorderAll, faChartLine } from '@fortawesome/free-solid-svg-icons';
 import Header from './layout/header';
 import Footer from './layout/footer';
 import { SideDrawer, ListItem } from '../shared';
@@ -10,6 +10,7 @@ import { SideBarLinkWithComponentProps } from '../shared/side-bar/side-nav-link'
 import TabsPage from './tabs';
 import FormsPage from './forms';
 import TablesPage from './tables';
+import GraphsPage from './graphs';
 
 export interface DashboardProps extends RouteComponentProps { }
 
@@ -30,7 +31,8 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
   const navLinks: SideBarLinkWithComponentProps[] = [
     { text: 'Tabs', icon: faBorderAll, target: `${path}/tabs`, component: TabsPage },
     { text: 'Forms', icon: faClipboardList, target: `${path}/forms`, component: FormsPage },
-    { text: 'Tables', icon: faClipboardList, target: `${path}/tables`, component: TablesPage }
+    { text: 'Tables', icon: faClipboardList, target: `${path}/tables`, component: TablesPage },
+    { text: 'Graphs', icon: faChartLine, target: `${path}/graphs`, component: GraphsPage }
   ];
 
 
