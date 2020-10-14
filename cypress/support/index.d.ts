@@ -1,4 +1,12 @@
 declare namespace Cypress {
+
+  interface CypressOptions {
+    log?: boolean
+    timeout?: number
+    withinSubject?: JQuery | HTMLElement | null
+    includeShadowDom?: boolean
+  }
+
   interface Chainable {
 
     pageLandingInit(): void
@@ -17,11 +25,14 @@ declare namespace Cypress {
     testDateNotFuture(fieldName: string): void
 
     //Selector
-    dataTestSelector(name: string): string
-    dataTest(name: string): Chainable<JQuery<HTMLElement>>
-    selectNth(selector: string, value: number): Chainable<Element>
-    formControl(name: string, innerSelector?: string, outerSelector?: string, timeout?: number): Chainable<JQuery<HTMLElement>>
-    formControlError(name: string, outerSelector?: string): Chainable<JQuery<HTMLElement>>
-    name(name: string): Chainable<JQuery<HTMLElement>>
+    dataTest(name: string, options?: Cypress.CypressOptions): Chainable<JQuery<HTMLElement>>
+    selectNth(selector: string, value: number, options?: Cypress.CypressOptions): Chainable<Element>
+    formControl(name: string, innerSelector?: string, outerSelector?: string, options?: Cypress.CypressOptions): Chainable<JQuery<HTMLElement>>
+    formControlError(name: string, outerSelector?: string, options?: Cypress.CypressOptions): Chainable<JQuery<HTMLElement>>
+    name(name: string, options?: Cypress.CypressOptions): Chainable<JQuery<HTMLElement>>
+    getSubmit(options?: Cypress.CypressOptions): Chainable<JQuery<HTMLElement>>
+    getSuccessToast(options?: Cypress.CypressOptions): Chainable<JQuery<HTMLElement>>
+    getErrorToast(options?: Cypress.CypressOptions): Chainable<JQuery<HTMLElement>>
+    clearToast(options?: Cypress.CypressOptions): Chainable<JQuery<HTMLElement>>
   }
 }

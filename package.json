@@ -71,7 +71,7 @@
     "cypress-info": "cypress info",
     "cypress-verify": "cypress verify",
     "cypress-open": "cypress open",
-    "cypress-run": "cypress run --spec 'cypress/integration/ci-cd/**/*' --config video=false"
+    "cypress-ci": "cypress run --spec 'cypress/integration/ci-cd/**/*' --config video=false"
   },
   "eslintConfig": {
     "extends": "react-app",

@@ -15,16 +15,5 @@
 
 // Import commands.js using ES2015 syntax:
 import 'react'
-
-Cypress.Commands.add('dataCy', (value: string) => {
-  return cy.get(`[data-cy=${value}]`)
-});
-
-Cypress.Commands.add('selectNth', (selector: string, value: number) => {
-  if (value <= 1) return cy.get(selector).first();
-
-  return cy.get(selector).eq(value - 1);
-});
-
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+import './commands/input-commands';
+import './commands/selector-commands';
