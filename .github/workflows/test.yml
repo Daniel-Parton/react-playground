@@ -1,10 +1,11 @@
+
 name: Test
 
 on: [pull_request]
 
 jobs:
-  cypress-test:
-     runs-on: ubuntu-16.04
+  chrome-headless:
+    runs-on: ubuntu-16.04
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -16,4 +17,4 @@ jobs:
           start: npm start
           browser: chrome
           headless: true
-          record: false
+          record: true
