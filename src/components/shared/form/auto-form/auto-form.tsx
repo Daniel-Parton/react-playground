@@ -60,38 +60,36 @@ function AutoForm<TData = any, TSuccessResponse = any>(props: AutoFormProps<TDat
       initialValues={validator.getInitial(initial)}
       validate={(values) => validator.validate(values, props)}
       onSubmit={handleSuccessValidationSubmit}
-      render={(formikProps) => {
-        return (
-          <BlockUi blocking={formikProps.isSubmitting} text={submittingMessage}>
-            <Form variant={variant} id={formId} onSubmit={(e) => handleSubmit(e, formikProps)} className={className}>
-              {header && <h5 className={headerCentre ? 'text-center' : undefined}>{header}</h5>}
-              {topContent}
-              {rows.map((row, ri) => (
-                <Row key={ri}>
-                  {row.columns.filter(e => e.field.type !== 'Script').map((column, ci) => (
-                    <Col key={ci}
-                      xs={column.extraSmallSize}
-                      sm={column.smallSize}
-                      md={column.mediumSize}
-                      lg={column.largeSize}
-                      xl={column.extraLargeSize}
-                    >
-                      {Helper.renderInputComponent(column.field, formikProps)}
-                    </Col>
-                  ))}
-                </Row>
-              ))}
-              <div>
-                <Button className='w-100 mb-2' type='submit' bsVariant='primary'>{submitButtonText || 'Save'}</Button>
-                {!hideBack && <Button className='w-100' bsVariant='secondary' data-test='auto-form-back-button' onClick={onBack}>Back</Button>}
-                {additionalButtonsFunc && additionalButtonsFunc(formikProps).map((p) => <Button {...p} />)}
-              </div>
-            </Form>
-            <FormikSideEffects focusInputOnSubmitFail noFocusFirstInputOnInit={noFocusOnInit} logOnChange={debug} onChange={onChange} />
-          </BlockUi>
-        )
-      }}
     >
+      {(formikProps) => (
+        <BlockUi blocking={formikProps.isSubmitting} text={submittingMessage}>
+          <Form variant={variant} id={formId} onSubmit={(e) => handleSubmit(e, formikProps)} className={className}>
+            {header && <h5 className={headerCentre ? 'text-center' : undefined}>{header}</h5>}
+            {topContent}
+            {rows.map((row, ri) => (
+              <Row key={ri}>
+                {row.columns.filter(e => e.field.type !== 'Script').map((column, ci) => (
+                  <Col key={ci}
+                    xs={column.extraSmallSize}
+                    sm={column.smallSize}
+                    md={column.mediumSize}
+                    lg={column.largeSize}
+                    xl={column.extraLargeSize}
+                  >
+                    {Helper.renderInputComponent(column.field, formikProps)}
+                  </Col>
+                ))}
+              </Row>
+            ))}
+            <div>
+              <Button className='w-100 mb-2' type='submit' bsVariant='primary'>{submitButtonText || 'Save'}</Button>
+              {!hideBack && <Button className='w-100' bsVariant='secondary' data-test='auto-form-back-button' onClick={onBack}>Back</Button>}
+              {additionalButtonsFunc && additionalButtonsFunc(formikProps).map((p) => <Button {...p} />)}
+            </div>
+          </Form>
+          <FormikSideEffects focusInputOnSubmitFail noFocusFirstInputOnInit={noFocusOnInit} logOnChange={debug} onChange={onChange} />
+        </BlockUi>
+      )}
     </Formik>
   )
 }
