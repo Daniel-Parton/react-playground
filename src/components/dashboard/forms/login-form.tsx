@@ -10,7 +10,7 @@ import { email, maxCharLength, required } from '../../shared/form/validators';
 interface LoginFormProps extends RouteComponentProps {
 }
 
-interface LoginFormValues {
+export interface LoginFormValues {
   email: string
   password: string
 }

@@ -7,7 +7,11 @@ import * as NameHelper from './helpers/name-helper';
 //Live testing
 import LiveTestFixture from './live-tests/live-test-fixture'
 
+//Getters
+import Getters from './getters'
+
 export {
+  Getters,
 
   //Helpers
   AssertHelper,
