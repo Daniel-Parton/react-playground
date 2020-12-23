@@ -98,6 +98,18 @@ function CrudDataTable<T>(props: CrudDataTableProps<T>) {
     return editHeader(modalState.data!);
   }
 
+  const resolveFormFields = () => {
+
+    //Disable the data property
+    const index = formProps.findIndex(e => e.name === dataIdProperty);
+    if (index >= 0) {
+      if (!formProps[index].options) formProps[index].options = {};
+      formProps[index].options!.disabled = () => true;
+    }
+
+    return toStackedForm(formProps);
+  }
+
   return (
     <React.Fragment>
       <UncontrolledDataTable<T>
@@ -128,7 +140,7 @@ function CrudDataTable<T>(props: CrudDataTableProps<T>) {
           return promise(values);
         }}
         onSubmitSuccess={handleSubmitSuccess}
-        rows={toStackedForm(formProps)}
+        rows={resolveFormFields()}
       />
     </React.Fragment>
   )

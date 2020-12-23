@@ -2,15 +2,15 @@ import classNames from 'classnames';
 import React, { useState, memo } from 'react';
 import { v4 } from 'uuid';
 import { Button as BootStrapButton, UncontrolledTooltip } from 'reactstrap';
-import { IconProp, SizeProp } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ButtonVariant, BootstrapButtonVariant } from './shared';
 import Skeleton from 'react-loading-skeleton';
+import { IconType } from 'react-icons';
+
+import { ButtonVariant, BootstrapButtonVariant } from './shared';
 
 export interface ButtonProps {
   key?: any
   id?: string
-  icon?: IconProp
+  icon?: IconType
   className?: string
   toolTip?: string
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
@@ -19,21 +19,18 @@ export interface ButtonProps {
   variant?: ButtonVariant
   disabled?: boolean
   text?: string
-  iconStyle?: any
   style?: any
   noHover?: boolean
   iconVariant?: 'primary' | 'secondary'
-  iconSize?: SizeProp
   showLoadingSkeleton?: boolean
-  iconInverse?: boolean
   children?: any
   type?: 'button' | 'submit'
   small?: boolean
 }
 
-const Button: React.FC<ButtonProps> = ({ iconStyle, noHover, iconVariant, iconSize, id,
+const Button: React.FC<ButtonProps> = ({ noHover, iconVariant, id,
   rounded, variant, bsVariant, icon, className, children, toolTip, text,
-  showLoadingSkeleton, onClick, iconInverse, type = 'button', small = false, ...rest }) => {
+  showLoadingSkeleton, onClick, type = 'button', small = false, ...rest }) => {
 
   const [compiledId] = useState(id || `a${v4()}`);
 
@@ -58,10 +55,12 @@ const Button: React.FC<ButtonProps> = ({ iconStyle, noHover, iconVariant, iconSi
     );
   }
 
+  const Icon = icon;
+
   return (
     <React.Fragment>
       <BootStrapButton size={small ? 'sm' : undefined} id={compiledId} className={classes} color={bsVariant} onClick={onClick} type={type} {...rest}>
-        {icon && <FontAwesomeIcon inverse={iconInverse} style={iconStyle} size={iconSize || 'sm'} icon={icon} className={iconClasses} />}
+        {Icon && <Icon className={iconClasses} />}
         {text}
         {children}
       </BootStrapButton>

@@ -43,7 +43,6 @@ function DataTableBodyRow<T>(props: DataTableBodyProps<T>) {
       small: true,
       icon: (action.iconFunc && action.iconFunc(dataRow)) || action.icon,
       variant: action.variant,
-      iconStyle: !action.iconStyleFunc ? undefined : action.iconStyleFunc(dataRow),
       toolTip: action.tooltipFunc ? action.tooltipFunc(dataRow) : action.tooltip,
       text: action.text,
       disabled: action.disabled

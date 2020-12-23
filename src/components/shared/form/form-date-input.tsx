@@ -2,16 +2,16 @@ import React from "react";
 import MaskedInput from 'react-text-mask';
 import classNames from "classnames";
 import { Input as BootstrapInput, Label } from "reactstrap";
+import { IconType } from 'react-icons';
+
 import FormErrorMessage from "./form-error";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import FormControlWrapper from "./form-control-wrapper";
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { BaseFormInput } from "./form-types";
 import FormInputSkeleton from "../loading-skeleton/form-input-skeleton";
 
 export interface FormDateInputProps extends BaseFormInput {
-  iconLeft?: IconProp
-  iconRight?: IconProp
+  iconLeft?: IconType
+  iconRight?: IconType
   inputClassName?: string
   afterInputContent?: any
   showLoadingSkeleton?: boolean
@@ -40,6 +40,8 @@ const FormDateInput: React.FC<FormDateInputProps> = (props) => {
     return <FormInputSkeleton className={classes} hasLabel={label ? true : false} />;
   }
 
+  const IconLeft = iconLeft;
+  const IconRight = iconRight;
   return (
     <FormControlWrapper name={name as string} className={classes} invalid={invalid}>
       {label && <Label for={name as string}>{label}</Label>}
@@ -59,8 +61,8 @@ const FormDateInput: React.FC<FormDateInputProps> = (props) => {
         {afterInputContent && <div className='form-input-post-content'>{afterInputContent}</div>}
 
       </div>
-      {iconLeft && <FontAwesomeIcon className='input-icon-left' icon={iconLeft} />}
-      {iconRight && <FontAwesomeIcon className='input-icon-right' icon={iconRight} />}
+      {IconLeft && <IconLeft className='input-icon-left' />}
+      {IconRight && <IconRight className='input-icon-right' />}
 
       <FormErrorMessage errorMessage={error} show={showError} />
     </FormControlWrapper>

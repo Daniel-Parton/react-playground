@@ -15,7 +15,9 @@ export const toStackedForm = (fields: AutoFormPropertyDefinition[]) => {
 };
 
 export function renderInputComponent(property: AutoFormPropertyDefinition, formikProps: FormikProps<any>) {
+
   let sharedProps = {
+    disabled: property.options?.disabled ? property.options?.disabled(formikProps.values) : undefined,
     label: property.display,
     formikProps: formikProps,
     name: property.name as any
@@ -24,6 +26,7 @@ export function renderInputComponent(property: AutoFormPropertyDefinition, formi
   if (!sharedProps.label && property.options?.displayFromName) {
     sharedProps.label = addSpacesOnCaps(property.name as string)
   }
+
 
   const placeholder = property.options?.placeholder;
   const includeEmptyOption = property.options?.exludeEmptyFirstOptionOnSelect;
