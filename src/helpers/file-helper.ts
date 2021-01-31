@@ -7,8 +7,8 @@ interface DownloadUrlOptions {
   suggestedFileName?: string
 }
 
-export function downloadUrl<T = any>(options: DownloadUrlOptions) {
-  return new Promise<T>((resolve, reject) => {
+export function downloadUrl(options: DownloadUrlOptions) {
+  return new Promise((resolve, reject) => {
     if (options.type === 'GET') {
       downloadUrlViaGet(options, resolve);
     } else {
@@ -17,7 +17,7 @@ export function downloadUrl<T = any>(options: DownloadUrlOptions) {
   });
 }
 
-const downloadUrlViaGet = (options: DownloadUrlOptions, promiseResolve: () => void) => {
+const downloadUrlViaGet = (options: DownloadUrlOptions, promiseResolve: (value?: any) => void) => {
   const a: any = document.createElement('a');
   a.style.display = 'none';
   a.setAttribute('href', options.url);

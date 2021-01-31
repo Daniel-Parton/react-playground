@@ -14,7 +14,7 @@ function WithApiHelper<P extends WithApiHelperProps>(Component: React.ComponentT
     const toastHelper = new ToastHelper(useToasts());
     const apiHelper = new ApiHelper(toastHelper, options);
 
-    return <Component apiHelper={apiHelper} toastHelper={toastHelper} {...props as P} />;
+    return <Component {...props as P} apiHelper={apiHelper} toastHelper={toastHelper} />;
   }
 }
 

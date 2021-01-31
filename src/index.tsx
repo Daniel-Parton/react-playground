@@ -4,7 +4,7 @@ import { Switch, BrowserRouter, Route } from 'react-router-dom';
 
 import * as serviceWorker from './serviceWorker';
 
-import App from './components/app';
+import { App } from './components/app';
 import './index.scss';
 
 import 'react-vis/dist/style.css';

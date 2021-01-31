@@ -1,55 +1,39 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import { ToastProvider } from 'react-toast-notifications'
 import { Route, RouteComponentProps } from 'react-router';
 import { Switch } from 'react-router-dom';
 
+import { StateProvider, useAppContext } from './state';
 import Dashboard from './dashboard';
 import ErrorPage from './error';
 import { BlockUi } from './shared';
 
-interface AppContextGetterProps {
-  loadingMessage?: string
-}
+const AppBody: React.FC<RouteComponentProps> = () => {
 
-export interface AppContextProps extends AppContextGetterProps {
-}
-
-const AppContext = React.createContext<AppContextProps>({
-  loadingMessage: undefined
-});
-
-export const useAppContext = () => useContext(AppContext);
-
-const App: React.FC<RouteComponentProps> = () => {
-
-  const [state] = useState<AppContextGetterProps>({
-    loadingMessage: undefined,
-  });
-
-  const showLoading = state.loadingMessage ? true : false;
+  const loading = useAppContext(s => s.app.loading);
+  const loadingMessage = useAppContext(s => s.app.loadingMessage);
 
   return (
-    <ToastProvider autoDismissTimeout={3000} placement='bottom-right'>
-      <div id='app'>
-        <div className='page'>
-          <AppContext.Provider
-            value={{
-              loadingMessage: state.loadingMessage
-            }}
-          >
-            <Route path={`/error`} component={ErrorPage} />
-            {showLoading && <BlockUi blocking text={state.loadingMessage} className='full-page-loading' />}
-            {!showLoading && (
-              <Switch>
-                <Route path='/dashboard' component={Dashboard} />
-                <Route path='/' component={Dashboard} exact />
-              </Switch>
-            )}
-          </AppContext.Provider>
-        </div>
+    <div id='app'>
+      <div className='page'>
+        <Route path={`/error`} component={ErrorPage} />
+        {loading && <BlockUi blocking text={loadingMessage} className='full-page-loading' />}
+        <Switch>
+          <Route path='/dashboard' component={Dashboard} />
+          <Route path='/' component={Dashboard} exact />
+        </Switch>
       </div>
-    </ToastProvider >
+    </div>
   );
 }
 
-export default App;
+export const App: React.FC<RouteComponentProps> = (props) => {
+
+  return (
+    <StateProvider>
+      <ToastProvider autoDismissTimeout={3000} placement='bottom-right'>
+        <AppBody {...props} />
+      </ToastProvider >
+    </StateProvider>
+  );
+}
