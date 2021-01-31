@@ -3,8 +3,8 @@ import classNames from "classnames";
 import { Input as BootstrapInput, Label, CSSModule } from "reactstrap";
 import { IconType } from 'react-icons';
 
-import FormErrorMessage from "./form-error";
-import FormControlWrapper from "./form-control-wrapper";
+import { FormError } from "./form-error";
+import { FormControlWrapper } from "./form-control-wrapper";
 import { BaseFormInput } from "./form-types";
 import FormInputSkeleton from "../loading-skeleton/form-input-skeleton";
 
@@ -34,7 +34,7 @@ export interface FormInputProps<TFormValues = any> extends BaseFormInput<TFormVa
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void
 }
 
-function FormInput<TFormValues = any>(props: FormInputProps<TFormValues>) {
+export function FormInput<TFormValues = any>(props: FormInputProps<TFormValues>) {
   const { name, iconLeft, iconRight, className, inputClassName,
     label, error, showError, afterInputContent, showLoadingSkeleton, type, disabled, ...rest } = props;
 
@@ -70,9 +70,7 @@ function FormInput<TFormValues = any>(props: FormInputProps<TFormValues>) {
       </div>
       {IconLeft && <IconLeft className='input-icon-left' />}
       {IconRight && <IconRight className='input-icon-right' />}
-      <FormErrorMessage errorMessage={error} show={showError} />
+      <FormError errorMessage={error} show={showError} />
     </FormControlWrapper>
   );
 }
-
-export default FormInput;

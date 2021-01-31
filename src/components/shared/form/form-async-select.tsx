@@ -2,20 +2,19 @@ import React from "react";
 import classNames from "classnames";
 import { ActionMeta, SelectComponentsConfig, InputActionMeta } from 'react-select';
 import AsyncSelect from 'react-select/async';
+import { getOptionValue, getOptionLabel } from "react-select/src/builtins";
 import makeAnimated from 'react-select/animated';
+import { Label } from "reactstrap";
 
 import { BaseFormInput } from "./form-types";
-import FormControlWrapper from "./form-control-wrapper";
-import FormErrorMessage from "./form-error";
-import { Label } from "reactstrap";
-import { getOptionValue, getOptionLabel } from "react-select/src/builtins";
-import ReactSelectHelper from "./react-select-helper";
+import { FormControlWrapper } from "./form-control-wrapper";
+import { FormError } from "./form-error";
+import { getComponents } from './react-select-helper';
 
-export interface FormAsyncSelectProps extends BaseFormInput {
+export interface FormAsyncSelectProps<T = any> extends BaseFormInput<T> {
   components?: SelectComponentsConfig<any>
   hideBaseClassName?: boolean
   className?: string
-  name: string
   label?: string
   placeholder?: string
   value?: any
@@ -34,7 +33,7 @@ export interface FormAsyncSelectProps extends BaseFormInput {
 
 let requestTimer: any = null;
 
-const FormAsyncSelect: React.FC<FormAsyncSelectProps> = (props) => {
+export function FormAsyncSelect<T = any>(props: FormAsyncSelectProps<T>) {
 
   const { onChange, name, label, className, error, showError, defaultValue, searchPromise,
     hideBaseClassName, placeholder, components, getOptionValue, getOptionLabel, disabled, ...rest } = props;
@@ -60,11 +59,11 @@ const FormAsyncSelect: React.FC<FormAsyncSelectProps> = (props) => {
   const invalid = error && showError ? true : false;
 
   return (
-    <FormControlWrapper name={name} className={classes} invalid={invalid}>
-      {label && <Label for={name}>{label}</Label>}
+    <FormControlWrapper name={name as any} className={classes} invalid={invalid}>
+      {label && <Label for={name as any}>{label}</Label>}
       <AsyncSelect
         // menuPortalTarget={document.body}
-        inputId={name}
+        inputId={name as any}
         loadOptions={handleLoadOptions}
         classNamePrefix={'form-multi-select'}
         isDisabled={disabled}
@@ -75,15 +74,13 @@ const FormAsyncSelect: React.FC<FormAsyncSelectProps> = (props) => {
         getOptionValue={!getOptionValue ? (v: any) => v.value : getOptionValue}
         getOptionLabel={!getOptionLabel ? (v: any) => v.label : getOptionLabel}
         onChange={handleChange}
-        components={components || ReactSelectHelper.getComponents(makeAnimated())}
+        components={components || getComponents(makeAnimated())}
         placeholder={placeholder || 'Start typing to search...'}
         {...rest}
       />
-      <FormErrorMessage errorMessage={error} show={showError} />
+      <FormError errorMessage={error} show={showError} />
     </FormControlWrapper>
 
 
   );
 }
-
-export default FormAsyncSelect;

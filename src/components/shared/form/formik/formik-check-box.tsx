@@ -1,21 +1,20 @@
 import React from "react";
-import { FormikProps } from "formik";
-import FormCheckBox, { FormCheckBoxProps } from "../form-check-box";
+import { useFormikContext } from "formik";
+import { FormCheckBoxProps, FormCheckBox } from "../form-check-box";
 import { safeGetValue, shouldShowError, safeGetError } from "./formik-helper";
 
-export interface FormikCheckBoxProps extends FormCheckBoxProps {
-  formikProps: FormikProps<any>
-}
+export function FormikCheckBox<T = any>(props: FormCheckBoxProps<T>) {
 
-const FormikCheckBox: React.FC<FormikCheckBoxProps> = ({ formikProps, name, onChange, onBlur, ...rest }) => {
+  const { name, onChange, onBlur, ...rest } = props;
+  const formik = useFormikContext<T>();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    formikProps.setFieldValue(name as any, event.currentTarget.checked);
+    formik.setFieldValue(name as any, event.currentTarget.checked);
     if (onChange) onChange(event);
   };
 
   const handleBlur = (event: any) => {
-    formikProps.handleBlur(event);
+    formik.handleBlur(event);
     if (onBlur) onBlur(event);
   };
 
@@ -23,13 +22,11 @@ const FormikCheckBox: React.FC<FormikCheckBoxProps> = ({ formikProps, name, onCh
     <FormCheckBox
       {...rest}
       name={name}
-      checked={safeGetValue(formikProps, name) === true}
+      checked={safeGetValue(formik, name) === true}
       onChange={handleChange}
       onBlur={handleBlur}
-      showError={shouldShowError(formikProps, name)}
-      error={safeGetError(formikProps, name)}
+      showError={shouldShowError(formik, name)}
+      error={safeGetError(formik, name)}
     />
   );
 }
-
-export default FormikCheckBox;

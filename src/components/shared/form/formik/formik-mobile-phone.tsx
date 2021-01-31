@@ -1,21 +1,20 @@
 import React from 'react';
-import { FormikProps } from 'formik';
-import FormMobilePhone, { FormMobilePhoneProps } from '../form-mobile-phone';
+import { useFormikContext } from 'formik';
+import { FormMobilePhoneProps, FormMobilePhone } from '../form-mobile-phone';
 import { safeGetValue, shouldShowError, safeGetError } from './formik-helper';
 
-export interface FormikMobilePhoneProps<TFormValues = any> extends FormMobilePhoneProps<TFormValues> {
-  formikProps: FormikProps<TFormValues>
-}
+export function FormikMobilePhone<TFormValues = any>(props: FormMobilePhoneProps<TFormValues>) {
+  const { name, onChange, onBlur, ...rest } = props;
 
-function FormikMobilePhone<TFormValues = any>(props: FormikMobilePhoneProps<TFormValues>) {
-  const { formikProps, name, onChange, onBlur, ...rest } = props;
+  const formik = useFormikContext<TFormValues>();
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (formikProps && formikProps.handleChange) formikProps.handleChange(event);
+    formik.handleChange(event);
     if (onChange) onChange(event);
   };
 
   const handleBlur = (event: any) => {
-    if (formikProps && formikProps.handleBlur) formikProps.handleBlur(event);
+    formik.handleBlur(event);
     if (onBlur) onBlur(event);
   };
 
@@ -23,13 +22,11 @@ function FormikMobilePhone<TFormValues = any>(props: FormikMobilePhoneProps<TFor
     <FormMobilePhone<TFormValues>
       {...rest}
       name={name}
-      value={safeGetValue(formikProps, name, '')}
+      value={safeGetValue(formik, name, '')}
       onChange={handleChange}
       onBlur={handleBlur}
-      showError={shouldShowError(formikProps, name)}
-      error={safeGetError(formikProps, name)}
+      showError={shouldShowError(formik, name)}
+      error={safeGetError(formik, name)}
     />
   );
 };
-
-export default FormikMobilePhone;

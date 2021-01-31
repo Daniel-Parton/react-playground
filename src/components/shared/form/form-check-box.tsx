@@ -1,10 +1,10 @@
 import React from "react";
 import classNames from "classnames";
-import FormControlWrapper from './form-control-wrapper';
+import { FormControlWrapper } from './form-control-wrapper';
 import { BaseFormInput } from "./form-types";
-import FormErrorMessage from "./form-error";
+import { FormError } from "./form-error";
 
-export interface FormCheckBoxProps extends BaseFormInput {
+export interface FormCheckBoxProps<T = any> extends BaseFormInput<T> {
   className?: string
   checked?: boolean
   checkBoxClassName?: string
@@ -13,7 +13,8 @@ export interface FormCheckBoxProps extends BaseFormInput {
   noMargin?: boolean
   innerLabel?: string
 }
-const FormCheckBox: React.FC<FormCheckBoxProps> = (props) => {
+
+export function FormCheckBox<T = any>(props: FormCheckBoxProps<T>) {
 
   const { name, label, error, showError, checkBoxClassName, className, noMargin, innerLabel, ...rest } = props;
 
@@ -36,9 +37,7 @@ const FormCheckBox: React.FC<FormCheckBoxProps> = (props) => {
           <div className="control_indicator"></div>
         </div>
       </div>
-      <FormErrorMessage errorMessage={error} show={showError} />
+      <FormError errorMessage={error} show={showError} />
     </FormControlWrapper>
   )
 }
-
-export default FormCheckBox;

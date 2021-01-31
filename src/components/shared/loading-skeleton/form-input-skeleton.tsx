@@ -2,7 +2,8 @@ import React from "react";
 import Skeleton from 'react-loading-skeleton';
 import { v4 } from 'uuid';
 import { Row, Col } from "reactstrap";
-import FormControlWrapper from "../form/form-control-wrapper";
+
+import { FormControlWrapper } from "../form/form-control-wrapper";
 
 export interface FormInputSkeletonProps {
   hasLabel?: boolean

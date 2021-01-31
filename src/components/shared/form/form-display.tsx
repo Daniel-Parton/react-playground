@@ -4,7 +4,7 @@ import { Label } from "reactstrap";
 import { v4 } from 'uuid';
 import { IconType } from 'react-icons';
 
-import FormControlWrapper from "./form-control-wrapper";
+import { FormControlWrapper } from "./form-control-wrapper";
 
 export interface FormDisplayProps {
   iconLeft?: IconType
@@ -14,7 +14,7 @@ export interface FormDisplayProps {
   inline?: boolean
 }
 
-const FormDisplay: React.FC<FormDisplayProps> = (props) => {
+export const FormDisplay: React.FC<FormDisplayProps> = (props) => {
   const { iconLeft, className, label, text, children, inline, ...rest } = props;
 
   const classes = classNames({
@@ -33,5 +33,3 @@ const FormDisplay: React.FC<FormDisplayProps> = (props) => {
     </FormControlWrapper>
   );
 }
-
-export default FormDisplay;

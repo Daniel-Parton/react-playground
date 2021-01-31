@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormikProps } from "formik";
-import { FormikSelect, FormikTagInput, FormikMobilePhone, FormikMultiSelect, FormikCheckBox, FormikInput, FormikDateInput } from "../..";
-import FormDisplay from '../form-display';
+import { FormikSelect, FormikTagInput, FormikMobilePhone, FormikMultiSelect, FormikCheckBox, FormikInput, FormikDateInput, FormDisplay } from "../..";
 import { addSpacesOnCaps } from '../../../../helpers/string-helper';
 import FormTagDisplay from '../form-tag-display';
 import { AutoFormPropertyDefinition, AutoFormRow } from './auto-form-types';
@@ -19,7 +18,6 @@ export function renderInputComponent(property: AutoFormPropertyDefinition, formi
   let sharedProps = {
     disabled: property.options?.disabled ? property.options?.disabled(formikProps.values) : undefined,
     label: property.display,
-    formikProps: formikProps,
     name: property.name as any
   };
 

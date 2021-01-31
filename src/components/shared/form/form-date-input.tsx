@@ -4,12 +4,12 @@ import classNames from "classnames";
 import { Input as BootstrapInput, Label } from "reactstrap";
 import { IconType } from 'react-icons';
 
-import FormErrorMessage from "./form-error";
-import FormControlWrapper from "./form-control-wrapper";
+import { FormError } from "./form-error";
+import { FormControlWrapper } from "./form-control-wrapper";
 import { BaseFormInput } from "./form-types";
 import FormInputSkeleton from "../loading-skeleton/form-input-skeleton";
 
-export interface FormDateInputProps extends BaseFormInput {
+export interface FormDateInputProps<T = any> extends BaseFormInput<T> {
   iconLeft?: IconType
   iconRight?: IconType
   inputClassName?: string
@@ -21,7 +21,7 @@ export interface FormDateInputProps extends BaseFormInput {
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void
 }
 
-const FormDateInput: React.FC<FormDateInputProps> = (props) => {
+export function FormDateInput<T = any>(props: FormDateInputProps<T>) {
   const { name, iconLeft, iconRight, className, inputClassName,
     label, error, showError, afterInputContent, showLoadingSkeleton, ...rest } = props;
 
@@ -64,9 +64,7 @@ const FormDateInput: React.FC<FormDateInputProps> = (props) => {
       {IconLeft && <IconLeft className='input-icon-left' />}
       {IconRight && <IconRight className='input-icon-right' />}
 
-      <FormErrorMessage errorMessage={error} show={showError} />
+      <FormError errorMessage={error} show={showError} />
     </FormControlWrapper>
   );
 }
-
-export default FormDateInput;

@@ -4,8 +4,8 @@ import classNames from "classnames";
 import { Input as BootstrapInput, Label } from "reactstrap";
 import { IconType } from 'react-icons';
 
-import FormErrorMessage from "./form-error";
-import FormControlWrapper from "./form-control-wrapper";
+import { FormError } from "./form-error";
+import { FormControlWrapper } from "./form-control-wrapper";
 import { BaseFormInput } from "./form-types";
 import FormInputSkeleton from "../loading-skeleton/form-input-skeleton";
 
@@ -21,7 +21,7 @@ export interface FormMobilePhoneProps<TFormValues = any> extends BaseFormInput<T
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void
 }
 
-function FormMobilePhone<TFormValues = any>(props: FormMobilePhoneProps<TFormValues>) {
+export function FormMobilePhone<TFormValues = any>(props: FormMobilePhoneProps<TFormValues>) {
   const { name, iconLeft, iconRight, className, inputClassName,
     label, error, showError, afterInputContent, showLoadingSkeleton, ...rest } = props;
 
@@ -64,9 +64,7 @@ function FormMobilePhone<TFormValues = any>(props: FormMobilePhoneProps<TFormVal
       </div>
       {IconLeft && <IconLeft className='input-icon-left' />}
       {IconRight && <IconRight className='input-icon-right' />}
-      <FormErrorMessage errorMessage={error} show={showError} />
+      <FormError errorMessage={error} show={showError} />
     </FormControlWrapper>
   );
 }
-
-export default FormMobilePhone;

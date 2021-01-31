@@ -92,7 +92,7 @@ const DataTableToolbar: React.FC<DataTableToolBarProps> = (props: DataTableToolB
               className='data-table-toolbar-search mb-0'
               iconLeft={FaSearch}
               value={search}
-              onChange={(e) => handleSearch(e.currentTarget.value)}
+              onChange={(e: any) => handleSearch(e.currentTarget.value)}
               showLoadingSkeleton={loading}
             />
           </div>

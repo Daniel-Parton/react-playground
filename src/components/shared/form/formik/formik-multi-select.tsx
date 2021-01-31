@@ -1,34 +1,29 @@
 import React from "react";
-import { FormikProps } from "formik";
+import { useFormikContext } from "formik";
 import { safeGetError, safeGetTouched } from "./formik-helper";
-import FormMultiSelect, { FormMultiSelectProps } from "../form-multi-select";
+import { FormMultiSelectProps, FormMultiSelect } from "../form-multi-select";
 import { isArray } from "../../../../helpers/object-helper";
 
-interface FormikMultiSelectProps<TFormValues = any> extends FormMultiSelectProps<TFormValues> {
-  formikProps: FormikProps<TFormValues>
-}
+export function FormikMultiSelect<TFormValues = any>(props: FormMultiSelectProps<TFormValues>) {
 
-function FormikMultiSelect<TFormValues = any>(props: FormikMultiSelectProps<TFormValues>) {
-
-  const { formikProps, name, onChange, onBlur, ...rest } = props;
+  const { name, onChange, onBlur, ...rest } = props;
+  const formik = useFormikContext<TFormValues>();
 
   const handleChange = (value: any[], meta: any) => {
-    if (formikProps) {
-      formikProps.setFieldTouched(props.name as string);
-      formikProps.setFieldValue(props.name as string, !value ? undefined : value.map(e => e.value));
-    }
+    formik.setFieldTouched(props.name as string);
+    formik.setFieldValue(props.name as string, !value ? undefined : value.map(e => e.value));
 
     if (onChange) onChange(value, meta);
   }
 
   const handleBlur = (e: any) => {
-    if (formikProps) formikProps.setFieldTouched(props.name as string);
+    formik.setFieldTouched(props.name as string);
     if (onBlur) onBlur(e);
   }
 
   const safeGetDefaultValue = () => {
-    if (!props.formikProps.values) return [];
-    const value = (props.formikProps.values as any)[name];
+    if (!formik.values) return [];
+    const value = (formik.values)[name] as any;
     if (!isArray(value)) return [];
     const defaultValue: any[] = [];
     (value as any[]).forEach(e => {
@@ -42,13 +37,11 @@ function FormikMultiSelect<TFormValues = any>(props: FormikMultiSelectProps<TFor
     <FormMultiSelect
       name={name}
       onChange={handleChange}
-      onBlur={(e: any) => handleBlur(e)}
-      showError={safeGetTouched(formikProps, name)}
-      error={safeGetError(formikProps, name)}
+      onBlur={(e) => handleBlur(e)}
+      showError={safeGetTouched(formik, name)}
+      error={safeGetError(formik, name)}
       value={safeGetDefaultValue()}
       {...rest}
     />
   )
 };
-
-export default FormikMultiSelect;

@@ -5,7 +5,7 @@ import { DataTableAction } from '../../data-table-actions';
 import DataTableBodyCell from './data-table-body-cell';
 import { ButtonConfirm, Button } from '../../../index';
 import { ButtonProps } from '../../../buttons/button';
-import FormCheckBox from '../../../form/form-check-box';
+import { FormCheckBox } from '../../../form/form-check-box';
 import { useDataTableSettersContext } from '../contexts';
 
 interface DataTableBodyProps<T> {
