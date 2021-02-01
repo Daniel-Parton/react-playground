@@ -1,11 +1,10 @@
 import React from 'react';
-import { useFormikContext } from 'formik';
+import { useFormikWithHelper } from "./use-formik-with-helper";
 import { FormInputProps, FormInput } from '../form-input';
-import { safeGetValue, shouldShowError, safeGetError } from './formik-helper';
 
 export function FormikInput<TFormValues = any>(props: FormInputProps<TFormValues>) {
 	const { name, onChange, onBlur, ...rest } = props;
-	const formik = useFormikContext<TFormValues>();
+	const formik = useFormikWithHelper<TFormValues>();
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		formik.handleChange(event);
@@ -21,11 +20,11 @@ export function FormikInput<TFormValues = any>(props: FormInputProps<TFormValues
 		<FormInput<TFormValues>
 			{...rest}
 			name={name}
-			value={safeGetValue(formik, name, '')}
+			value={formik.getValueFromName(name)}
 			onChange={handleChange}
 			onBlur={handleBlur}
-			showError={shouldShowError(formik, name)}
-			error={safeGetError(formik, name)}
+			showError={formik.shouldShowError(name)}
+			error={formik.getErrorFromName(name)}
 		/>
 	);
 };

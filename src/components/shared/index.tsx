@@ -41,13 +41,13 @@ import { FormikAdPeoplePicker } from './form/formik/formik-ad-people-picker'
 import { FormikAsyncSelect } from './form/formik/formik-async-select'
 import { FormikCheckBox } from './form/formik/formik-check-box'
 import { FormikDateInput } from './form/formik/formik-date-input'
-import * as FormikHelper from './form/formik/formik-helper'
 import { FormikInput } from './form/formik/formik-input'
 import { FormikMobilePhone } from './form/formik/formik-mobile-phone'
 import { FormikMultiSelect } from './form/formik/formik-multi-select'
 import { FormikSelect } from './form/formik/formik-select'
 import { FormikSideEffects } from './form/formik/formik-side-effects'
 import { FormikTagInput } from './form/formik/formik-tag-input'
+import { useFormikWithHelper } from './form/formik/use-formik-with-helper'
 
 //Graph
 import LineGraph from './graph/line-graph'
@@ -142,13 +142,13 @@ export {
   FormikAsyncSelect,
   FormikCheckBox,
   FormikDateInput,
-  FormikHelper,
   FormikInput,
   FormikMobilePhone,
   FormikMultiSelect,
   FormikSelect,
   FormikSideEffects,
   FormikTagInput,
+  useFormikWithHelper,
 
   //Graph
   LineGraph,

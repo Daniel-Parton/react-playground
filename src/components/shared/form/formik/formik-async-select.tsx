@@ -1,13 +1,12 @@
 import React from "react";
-import { useFormikContext } from "formik";
-import { safeGetError, safeGetTouched, safeGetValue } from "./formik-helper";
+import { useFormikWithHelper } from "./use-formik-with-helper";
 import { isArray } from "../../../../helpers/object-helper";
 import { FormAsyncSelectProps, FormAsyncSelect } from "../form-async-select";
 
 export function FormikAsyncSelect<T = any>(props: FormAsyncSelectProps<T>) {
 
   const { name, onChange, onBlur, isMulti, ...rest } = props;
-  const formik = useFormikContext<T>();
+  const formik = useFormikWithHelper<T>();
 
   const handleChange = (value: any[], meta: any) => {
     formik.setFieldTouched(name as any);
@@ -40,9 +39,9 @@ export function FormikAsyncSelect<T = any>(props: FormAsyncSelectProps<T>) {
       name={name}
       onChange={handleChange}
       onBlur={(e: any) => handleBlur(e)}
-      showError={safeGetTouched(formik, name)}
-      error={safeGetError(formik, name)}
-      defaultValue={isMulti ? safeGetMultiValue() : safeGetValue(formik, name)}
+      showError={formik.shouldShowError(name)}
+      error={formik.getErrorFromName(name)}
+      defaultValue={isMulti ? safeGetMultiValue() : formik.getValueFromName(name)}
       {...rest}
     />
   )

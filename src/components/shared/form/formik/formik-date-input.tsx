@@ -1,11 +1,10 @@
 import React from 'react';
-import { useFormikContext } from 'formik';
+import { useFormikWithHelper } from "./use-formik-with-helper";
 import { FormDateInputProps, FormDateInput } from '../form-date-input';
-import { safeGetValue, shouldShowError, safeGetError } from './formik-helper';
 
 export function FormikDateInput<T = any>(props: FormDateInputProps<T>) {
 	const { name, onChange, onBlur, ...rest } = props;
-	const formik = useFormikContext<T>();
+	const formik = useFormikWithHelper<T>();
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		formik.handleChange(event);
@@ -21,11 +20,11 @@ export function FormikDateInput<T = any>(props: FormDateInputProps<T>) {
 		<FormDateInput
 			{...rest}
 			name={name}
-			value={safeGetValue(formik, name, '')}
+			value={formik.getValueFromName(name, '')}
 			onChange={handleChange}
 			onBlur={handleBlur}
-			showError={shouldShowError(formik, name)}
-			error={safeGetError(formik, name)}
+			showError={formik.shouldShowError(name)}
+			error={formik.getErrorFromName(name)}
 		/>
 	);
 };

@@ -1,6 +1,5 @@
 import React from "react";
-import { useFormikContext } from "formik";
-import { safeGetError, safeGetTouched } from "./formik-helper";
+import { useFormikWithHelper } from "./use-formik-with-helper";
 import { isArray } from "../../../../helpers/object-helper";
 import { FormTagInputProps, FormTagInput } from "../form-tag-input";
 import { OptionModel } from "../../../../types/shared-types";
@@ -8,7 +7,7 @@ import { OptionModel } from "../../../../types/shared-types";
 export function FormikTagInput<TFormValues = any>(props: FormTagInputProps<TFormValues>) {
 
   const { name, onChange, onBlur, ...rest } = props;
-  const formik = useFormikContext<TFormValues>();
+  const formik = useFormikWithHelper<TFormValues>();
 
   const handleChange = (value: any[], meta: any) => {
     formik.setFieldTouched(props.name as string);
@@ -44,8 +43,8 @@ export function FormikTagInput<TFormValues = any>(props: FormTagInputProps<TForm
       name={name as any}
       onChange={handleChange}
       onBlur={(e: any) => handleBlur(e)}
-      showError={safeGetTouched(formik, name)}
-      error={safeGetError(formik, name)}
+      showError={formik.shouldShowError(name)}
+      error={formik.getErrorFromName(name)}
       defaultValue={safeGetDefaultValue()}
       {...rest}
     />

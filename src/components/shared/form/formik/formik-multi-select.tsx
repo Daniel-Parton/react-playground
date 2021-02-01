@@ -1,13 +1,12 @@
 import React from "react";
-import { useFormikContext } from "formik";
-import { safeGetError, safeGetTouched } from "./formik-helper";
+import { useFormikWithHelper } from "./use-formik-with-helper";
 import { FormMultiSelectProps, FormMultiSelect } from "../form-multi-select";
 import { isArray } from "../../../../helpers/object-helper";
 
 export function FormikMultiSelect<TFormValues = any>(props: FormMultiSelectProps<TFormValues>) {
 
   const { name, onChange, onBlur, ...rest } = props;
-  const formik = useFormikContext<TFormValues>();
+  const formik = useFormikWithHelper<TFormValues>();
 
   const handleChange = (value: any[], meta: any) => {
     formik.setFieldTouched(props.name as string);
@@ -38,8 +37,8 @@ export function FormikMultiSelect<TFormValues = any>(props: FormMultiSelectProps
       name={name}
       onChange={handleChange}
       onBlur={(e) => handleBlur(e)}
-      showError={safeGetTouched(formik, name)}
-      error={safeGetError(formik, name)}
+      showError={formik.shouldShowError(name)}
+      error={formik.getErrorFromName(name)}
       value={safeGetDefaultValue()}
       {...rest}
     />

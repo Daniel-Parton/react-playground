@@ -1,6 +1,5 @@
 import React from "react";
-import { useFormikContext } from "formik";
-import { safeGetError, safeGetTouched, safeGetValue } from "./formik-helper";
+import { useFormikWithHelper } from "./use-formik-with-helper";
 import FormAdPeoplePicker, { FormAdPeoplePickerProps } from "../form-ad-people-picker";
 import { ActionMeta } from "react-select";
 
@@ -8,7 +7,7 @@ export function FormikAdPeoplePicker<T = any>(props: FormAdPeoplePickerProps<T>)
 
   const { name, onChange, onBlur, ...rest } = props;
 
-  const formik = useFormikContext();
+  const formik = useFormikWithHelper<T>();
   const handleChange = (values: any, action: ActionMeta<any>) => {
 
     formik.setFieldValue(name as any, values);
@@ -27,10 +26,10 @@ export function FormikAdPeoplePicker<T = any>(props: FormAdPeoplePickerProps<T>)
       name={name}
       onChange={handleChange}
       onBlur={(e: any) => handleBlur(e)}
-      value={safeGetValue(formik, name)}
-      showError={safeGetTouched(formik, name)}
-      error={safeGetError(formik, name)}
-      defaultValue={safeGetValue(formik, name)}
+      value={formik.getValueFromName(name)}
+      showError={formik.shouldShowError(name)}
+      error={formik.getErrorFromName(name)}
+      defaultValue={formik.getValueFromName(name)}
       {...rest}
     />
   )

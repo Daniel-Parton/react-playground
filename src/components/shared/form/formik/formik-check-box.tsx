@@ -1,12 +1,11 @@
 import React from "react";
-import { useFormikContext } from "formik";
+import { useFormikWithHelper } from "./use-formik-with-helper";
 import { FormCheckBoxProps, FormCheckBox } from "../form-check-box";
-import { safeGetValue, shouldShowError, safeGetError } from "./formik-helper";
 
 export function FormikCheckBox<T = any>(props: FormCheckBoxProps<T>) {
 
   const { name, onChange, onBlur, ...rest } = props;
-  const formik = useFormikContext<T>();
+  const formik = useFormikWithHelper<T>();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     formik.setFieldValue(name as any, event.currentTarget.checked);
@@ -22,11 +21,11 @@ export function FormikCheckBox<T = any>(props: FormCheckBoxProps<T>) {
     <FormCheckBox
       {...rest}
       name={name}
-      checked={safeGetValue(formik, name) === true}
+      checked={formik.getValueFromName(name) === true}
       onChange={handleChange}
       onBlur={handleBlur}
-      showError={shouldShowError(formik, name)}
-      error={safeGetError(formik, name)}
+      showError={formik.shouldShowError(name)}
+      error={formik.getErrorFromName(name)}
     />
   );
 }
