@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { Label } from "reactstrap";
 import { v4 } from "uuid";
 
-import FormControlWrapper from "./form-control-wrapper";
+import { FormControlWrapper } from "./form-control-wrapper";
 import ChipList from '../chips/chip-list'
 import { ChipProps } from "../chips/chip";
 
@@ -14,7 +14,7 @@ export interface FormTagDisplayProps {
   smallOverride?: boolean
 }
 
-const FormTagDisplay: React.FC<FormTagDisplayProps> = (props) => {
+export const FormTagDisplay: React.FC<FormTagDisplayProps> = (props) => {
   const { className, label, tags, children, smallOverride, ...rest } = props;
 
   const classes = classNames({

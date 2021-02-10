@@ -1,7 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
-import { DataTableColumnDefinition } from '..';
-import { faChevronUp, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { FaChevronUp, FaFilter } from 'react-icons/fa';
+
+import { DataTableColumnDefinition } from '../uncontrolled-data-table';
 import { Button } from '../../..';
 import { isEmpty } from '../../../../../helpers/object-helper';
 
@@ -62,8 +63,8 @@ function DataTableHeadCell<T>(props: DataTableHeadCellProps<T>) {
           {!column.renderHeader && column.header && column.header}
           {!column.renderHeader && !column.header && column.key}
         </div>
-        <Button variant='transparent' className={sortIconClasses} icon={faChevronUp} onClick={handleSortClick} />
-        <Button id={filterId} variant='transparent' className={filterIconClasses} icon={faFilter} />
+        <Button variant='transparent' className={sortIconClasses} icon={FaChevronUp} onClick={handleSortClick} />
+        <Button id={filterId} variant='transparent' className={filterIconClasses} icon={FaFilter} />
         {hasFilter && <DataTableRowFilter filterValues={compiledFilterValues} columnKey={column.key} filters={column.filters!} buttonId={filterId} />}
       </div>
     </th>

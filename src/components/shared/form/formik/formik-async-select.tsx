@@ -1,39 +1,33 @@
 import React from "react";
-import { FormikProps } from "formik";
-import { safeGetError, safeGetTouched, safeGetValue } from "./formik-helper";
+import { useFormikWithHelper } from "./use-formik-with-helper";
 import { isArray } from "../../../../helpers/object-helper";
-import FormAsyncSelect, { FormAsyncSelectProps } from "../form-async-select";
+import { FormAsyncSelectProps, FormAsyncSelect } from "../form-async-select";
 
-interface FormikAsyncSelectProps<T> extends FormAsyncSelectProps {
-  formikProps: FormikProps<T>
-}
+export function FormikAsyncSelect<T = any>(props: FormAsyncSelectProps<T>) {
 
-const FormikAsyncSelect: React.FC<FormikAsyncSelectProps<any>> = (props) => {
-
-  const { formikProps, name, onChange, onBlur, isMulti, ...rest } = props;
+  const { name, onChange, onBlur, isMulti, ...rest } = props;
+  const formik = useFormikWithHelper<T>();
 
   const handleChange = (value: any[], meta: any) => {
-    if (formikProps) {
-      formikProps.setFieldTouched(props.name);
+    formik.setFieldTouched(name as any);
 
-      if(isMulti) {
-        formikProps.setFieldValue(props.name, !value ? undefined : value.map(e => e.value));
-      } else {
-        formikProps.setFieldValue(props.name, !value ? undefined : (value as any).value);
-      }
+    if (isMulti) {
+      formik.setFieldValue(name as any, !value ? undefined : value.map(e => e.value));
+    } else {
+      formik.setFieldValue(props.name as any, !value ? undefined : (value as any).value);
     }
 
     if (onChange) onChange(value, meta);
   }
 
   const handleBlur = (e: any) => {
-    if (formikProps) formikProps.setFieldTouched(props.name);
+    formik.setFieldTouched(props.name as any);
     if (onBlur) onBlur(e);
   }
 
   const safeGetMultiValue = () => {
-    if (!formikProps.values) return [];
-    const value = props.formikProps.values[name];
+    if (!formik.values) return [];
+    const value = formik.values[name];
     if (!isArray(value)) return [];
     const defaultValue: any[] = [];
     return defaultValue;
@@ -45,12 +39,10 @@ const FormikAsyncSelect: React.FC<FormikAsyncSelectProps<any>> = (props) => {
       name={name}
       onChange={handleChange}
       onBlur={(e: any) => handleBlur(e)}
-      showError={safeGetTouched(formikProps, name)}
-      error={safeGetError(formikProps, name)}
-      defaultValue={isMulti ? safeGetMultiValue() : safeGetValue(formikProps, name)}
+      showError={formik.shouldShowError(name)}
+      error={formik.getErrorFromName(name)}
+      defaultValue={isMulti ? safeGetMultiValue() : formik.getValueFromName(name)}
       {...rest}
     />
   )
 };
-
-export default FormikAsyncSelect;

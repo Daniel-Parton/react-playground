@@ -1,15 +1,15 @@
 import { get, set } from 'lodash'
 import { ensurePathExists } from '../../../helpers/object-helper';
 
-export type ValidatorType<TFormValues = any, TComponentProps = any, TState = any> = (value: any, values: TFormValues, props: TComponentProps, state?: TState) => string | null
+export type ValidatorType<TFormValues = any, TComponentProps = any, TState = any> = (value: any, values: TFormValues, props?: TComponentProps, state?: TState) => string | null
 
 export interface FormValidatorField<TFormValues = any, TComponentProps = any, TState = any> {
   name: keyof TFormValues
-  validators?: ValidatorType<TFormValues, TComponentProps>[]
+  validators?: ValidatorType<TFormValues, TComponentProps, TState>[]
 }
 
 export interface FormValidatorOptions<TFormValues = any, TComponentProps = any, TState = any> {
-  fields: FormValidatorField<TFormValues, TComponentProps>[]
+  fields: FormValidatorField<TFormValues, TComponentProps, TState>[]
   onlyShowOneErrorPerField?: boolean
 }
 

@@ -1,11 +1,11 @@
 import React from "react";
 import classNames from "classnames";
 import { Input, Label, CSSModule } from "reactstrap";
-import FormControlWrapper from "./form-control-wrapper";
+import { FormControlWrapper } from "./form-control-wrapper";
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { OptionModel } from "../../../types/shared-types";
 import { BaseFormInput } from "./form-types";
-import FormErrorMessage from "./form-error";
+import { FormError } from "./form-error";
 
 export interface FormSelectProps<TFormValues> extends BaseFormInput<TFormValues> {
   iconLeft?: IconProp
@@ -32,7 +32,7 @@ export interface FormSelectProps<TFormValues> extends BaseFormInput<TFormValues>
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void
 }
 
-function FormSelect<TFormValues = any>(props: FormSelectProps<TFormValues>) {
+export function FormSelect<TFormValues = any>(props: FormSelectProps<TFormValues>) {
 
   const { className, error, showError, touched, selectClassName, iconLeft, includeEmptyOption, name, options, label, ...rest } = props;
 
@@ -59,9 +59,7 @@ function FormSelect<TFormValues = any>(props: FormSelectProps<TFormValues>) {
           </option>
         ))}
       </Input>
-      <FormErrorMessage errorMessage={error} show={showError} />
+      <FormError errorMessage={error} show={showError} />
     </FormControlWrapper>
   )
 };
-
-export default FormSelect;

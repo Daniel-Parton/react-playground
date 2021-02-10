@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import DataTable, { DataTableColumnDefinition } from './data-table';
+import UncontrolledDataTable, { DataTableColumnDefinition } from './data-table/uncontrolled-data-table';
 import DataTableActions from './data-table-actions';
 import { ModalAutoForm } from '..';
 import { useToasts } from 'react-toast-notifications';
@@ -21,9 +21,11 @@ export interface CrudDataTableProps<T> {
   columns: CrudColumn<T>[]
   addPromise: (data: T) => Promise<T>
   editPromise: (data: T) => Promise<T>
+  deletePromise: (data: T) => Promise<T>
+
   reloadPromise: () => Promise<T[]>
   addHeader: string
-  editHeader: string
+  editHeader: (data: T) => string
 }
 
 export interface ModalState<T> {
@@ -34,7 +36,7 @@ export interface ModalState<T> {
 
 function CrudDataTable<T>(props: CrudDataTableProps<T>) {
 
-  const { className, columns, dataIdProperty, data, addHeader, editHeader, addPromise, editPromise, reloadPromise, loading } = props;
+  const { className, columns, dataIdProperty, data, addHeader, editHeader, addPromise, editPromise, deletePromise, reloadPromise, loading } = props;
 
   const [tableData, setTableData] = useState<T[]>([]);
   const [modalState, setModalState] = useState<ModalState<T>>({ open: false, mode: 'add' });
@@ -42,7 +44,18 @@ function CrudDataTable<T>(props: CrudDataTableProps<T>) {
   useEffect(() => setTableData(data), [data])
 
   const toastHelper = new ToastHelper(useToasts());
+
   const handleEditClick = (model: T) => setModalState((ps) => ({ ...ps, open: true, data: model, mode: 'edit' }));
+
+  async function handleDeleteClick(model: T) {
+    await deletePromise(model);
+    setTableData((td) => {
+      const newTableData = [...td];
+      const index = newTableData.findIndex(e => e[dataIdProperty] === model[dataIdProperty]);
+      if (index >= 0) newTableData.splice(index, 1);
+      return newTableData;
+    });
+  };
 
   const handleSubmitSuccess = (response: any) => {
     const isEdit = modalState.mode === 'edit';
@@ -80,12 +93,26 @@ function CrudDataTable<T>(props: CrudDataTableProps<T>) {
     return definition;
   });
 
+  const resolveHeader = () => {
+    if (modalState.mode === 'add') return addHeader;
+    return editHeader(modalState.data!);
+  }
 
-  const header = modalState.mode === 'edit' ? editHeader : addHeader;
+  const resolveFormFields = () => {
+
+    //Disable the data property
+    const index = formProps.findIndex(e => e.name === dataIdProperty);
+    if (index >= 0) {
+      if (!formProps[index].options) formProps[index].options = {};
+      formProps[index].options!.disabled = () => true;
+    }
+
+    return toStackedForm(formProps);
+  }
 
   return (
     <React.Fragment>
-      <DataTable<T>
+      <UncontrolledDataTable<T>
         className={classes}
         loading={loading}
         toolbarProps={{
@@ -95,12 +122,13 @@ function CrudDataTable<T>(props: CrudDataTableProps<T>) {
         columns={columns}
         data={tableData}
         actions={[
-          DataTableActions.edit(handleEditClick),
+          DataTableActions.edit(handleEditClick, undefined, 'transparent'),
+          DataTableActions.delete(handleDeleteClick, undefined, 'transparent')
         ]}
         dataIdProperty={dataIdProperty}
       />
       <ModalAutoForm
-        header={header}
+        header={resolveHeader()}
         submitButtonText={modalState.mode === 'edit' ? 'Update' : 'Add'}
         open={modalState.open}
         initialValues={modalState.data}
@@ -112,7 +140,7 @@ function CrudDataTable<T>(props: CrudDataTableProps<T>) {
           return promise(values);
         }}
         onSubmitSuccess={handleSubmitSuccess}
-        rows={toStackedForm(formProps)}
+        rows={resolveFormFields()}
       />
     </React.Fragment>
   )

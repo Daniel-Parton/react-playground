@@ -1,13 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
 
-interface FormErrorMessageProps {
+interface Props {
   className?: string
   errorMessage?: string
   show?: boolean
 }
 
-const FormErrorMessage: React.FC<FormErrorMessageProps> = ({ errorMessage, show, className, ...rest }) => {
+export const FormError: React.FC<Props> = ({ errorMessage, show, className, ...rest }) => {
 
   const classes = classNames({
     'form-error-message': true,
@@ -17,5 +17,3 @@ const FormErrorMessage: React.FC<FormErrorMessageProps> = ({ errorMessage, show,
 
   return <span {...rest} className={classes}>{errorMessage}</span>;
 };
-
-export default FormErrorMessage;

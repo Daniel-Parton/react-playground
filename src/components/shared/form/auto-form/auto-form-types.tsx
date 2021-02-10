@@ -30,6 +30,7 @@ export interface AutoFormOptions {
   validators?: AutoFormValidator[]
   defaultValue?: () => any
   options?: OptionModel<any>[]
+  disabled?: (data?: any) => boolean
   tagOptions?: ChipProps[]
   imageData?: string
   htmlAttr?: any

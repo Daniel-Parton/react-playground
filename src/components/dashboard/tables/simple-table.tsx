@@ -5,7 +5,7 @@ import { useToasts } from 'react-toast-notifications';
 import ToastHelper from '../../../helpers/toast-helper';
 import DashboardPage from '../../hoc/dashboard-page';
 import { generateTableItems, SimpleTableValues } from './table-helper';
-import { DataTable } from '../../shared';
+import { UncontrolledDataTable } from '../../shared';
 
 interface SimpleTableProps extends RouteComponentProps {
 }
@@ -22,7 +22,7 @@ const SimpleTable: React.FC<SimpleTableProps> = () => {
 
 
   return (
-    <DataTable<SimpleTableValues>
+    <UncontrolledDataTable<SimpleTableValues>
       loading={!data.length}
       toolbarProps={{
         onReload: () => {

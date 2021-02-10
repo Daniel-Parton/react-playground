@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
-import { DataTableColumnDefinition } from '..';
+import { DataTableColumnDefinition } from '../uncontrolled-data-table';
 import { DataTableAction } from '../../data-table-actions';
 import DataTableBodyCell from './data-table-body-cell';
 import { ButtonConfirm, Button } from '../../../index';
 import { ButtonProps } from '../../../buttons/button';
-import FormCheckBox from '../../../form/form-check-box';
+import { FormCheckBox } from '../../../form/form-check-box';
 import { useDataTableSettersContext } from '../contexts';
 
 interface DataTableBodyProps<T> {
@@ -43,7 +43,6 @@ function DataTableBodyRow<T>(props: DataTableBodyProps<T>) {
       small: true,
       icon: (action.iconFunc && action.iconFunc(dataRow)) || action.icon,
       variant: action.variant,
-      iconStyle: !action.iconStyleFunc ? undefined : action.iconStyleFunc(dataRow),
       toolTip: action.tooltipFunc ? action.tooltipFunc(dataRow) : action.tooltip,
       text: action.text,
       disabled: action.disabled

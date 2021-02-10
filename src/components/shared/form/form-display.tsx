@@ -2,19 +2,19 @@ import React from "react";
 import classNames from "classnames";
 import { Label } from "reactstrap";
 import { v4 } from 'uuid';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import FormControlWrapper from "./form-control-wrapper";
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { IconType } from 'react-icons';
+
+import { FormControlWrapper } from "./form-control-wrapper";
 
 export interface FormDisplayProps {
-  iconLeft?: IconProp
+  iconLeft?: IconType
   label?: string
   text?: string
   className?: string
   inline?: boolean
 }
 
-const FormDisplay: React.FC<FormDisplayProps> = (props) => {
+export const FormDisplay: React.FC<FormDisplayProps> = (props) => {
   const { iconLeft, className, label, text, children, inline, ...rest } = props;
 
   const classes = classNames({
@@ -23,14 +23,13 @@ const FormDisplay: React.FC<FormDisplayProps> = (props) => {
     [className!]: className !== undefined,
   });
 
+  const IconLeft = iconLeft;
   return (
     <FormControlWrapper name={text ?? v4()} className={classes} {...rest}>
       {label && <Label>{label}</Label>}
-      {iconLeft && <FontAwesomeIcon className='mr-2' icon={iconLeft} />}
+      {IconLeft && <IconLeft className='mr-2' />}
       {text && <div>{text}</div>}
       {children}
     </FormControlWrapper>
   );
 }
-
-export default FormDisplay;

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
-import { DataTableColumnDefinition } from '..';
+import { DataTableColumnDefinition } from '../uncontrolled-data-table';
 
 interface DataTableBodyCellProps<T> {
   className?: string

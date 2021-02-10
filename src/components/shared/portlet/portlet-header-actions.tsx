@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { FaChevronDown } from "react-icons/fa";
 import { usePortletContext } from ".";
 import { Button } from "..";
 
@@ -25,7 +25,7 @@ const PortletHeaderActions: React.SFC<PortletHeaderActionsProps> = ({ className,
       {!hideDropdown && (
         <Button
           onClick={() => toggleBody()}
-          icon={faChevronDown}
+          icon={FaChevronDown}
           variant='transparent'
           className={buttonClasses}
         />

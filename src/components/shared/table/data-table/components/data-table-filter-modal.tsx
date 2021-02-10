@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDataTableSettersContext, useDataTableFilterContext } from '../contexts';
-import { DataTableColumnDefinition } from '..';
+import { DataTableColumnDefinition } from '../uncontrolled-data-table';
 import ModalSimple from '../../../modal/modal-simple';
 import AutoForm from '../../../form/auto-form/auto-form';
 import * as FilterHelper from '../helpers/data-table-filter-helper';

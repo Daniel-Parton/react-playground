@@ -6,7 +6,7 @@ export interface FormProps extends React.DetailedHTMLProps<React.FormHTMLAttribu
   variant?: FormVariant,
 }
 
-const Form: React.FC<FormProps> = ({ variant, className, children, ...rest }) => {
+export const Form: React.FC<FormProps> = ({ variant, className, children, ...rest }) => {
 
   const classes = classNames({
     'form': true,
@@ -20,5 +20,3 @@ const Form: React.FC<FormProps> = ({ variant, className, children, ...rest }) =>
     </form>
   );
 }
-
-export default Form;

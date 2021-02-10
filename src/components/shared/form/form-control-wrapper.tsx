@@ -2,11 +2,12 @@ import React from 'react';
 import classNames from 'classnames';
 import { FormGroup, FormGroupProps } from 'reactstrap';
 
-interface FormControlWrapperProps extends FormGroupProps {
+interface FormControlWrapperProps<T = any> extends Omit<FormGroupProps, 'name'> {
   invalid?: boolean
-  name: string
+  name: keyof T
 }
-const FormControlWrapper: React.SFC<FormControlWrapperProps> = (props) => {
+
+export function FormControlWrapper<T = any>(props: FormControlWrapperProps<T>) {
   const { className, invalid, children, name, ...rest } = props;
   const classes = classNames({
     'form-control-wrapper': true,
@@ -15,10 +16,8 @@ const FormControlWrapper: React.SFC<FormControlWrapperProps> = (props) => {
   });
 
   return (
-    <FormGroup data-test={`form-control-${name}`} className={classes} {...rest as any} >
+    <FormGroup data-test={`form-control-${name as any}`} className={classes} {...rest as any} >
       {children}
     </FormGroup>
   );
 };
-
-export default FormControlWrapper;

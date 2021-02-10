@@ -1,11 +1,7 @@
 import React from 'react';
 import { orderBy } from 'lodash';
-import { connect, FormikContextType } from 'formik';
+import { useFormikContext } from 'formik';
 import * as DomHelper from '../../../../helpers/dom-helper';
-
-interface BaseFormikContextProps {
-	formik: FormikContextType<any>;
-}
 
 interface FormikSideEffectsProps {
 	formId?: string;
@@ -21,8 +17,10 @@ interface ErrorFinderDto {
 	element: HTMLElement;
 }
 
-const FormikSideEffects: React.FC<FormikSideEffectsProps & BaseFormikContextProps> = (props) => {
-	const { formId, formik, onChange, parentsubmitTriggerCount, focusInputOnSubmitFail, noFocusFirstInputOnInit, logOnChange } = props;
+export const FormikSideEffects: React.FC<FormikSideEffectsProps> = (props) => {
+	const { formId, onChange, parentsubmitTriggerCount, focusInputOnSubmitFail, noFocusFirstInputOnInit, logOnChange } = props;
+
+	const formik = useFormikContext();
 
 	const getFormElements = (keyedFormStructure: any) => {
 		return Object.keys(keyedFormStructure)
@@ -96,5 +94,3 @@ const FormikSideEffects: React.FC<FormikSideEffectsProps & BaseFormikContextProp
 
 	return null;
 };
-
-export default connect(FormikSideEffects as any) as React.FC<FormikSideEffectsProps>;

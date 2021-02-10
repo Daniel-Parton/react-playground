@@ -27,8 +27,9 @@ const CrudTablePage: React.FC<CrudTablePageProps> = (props) => {
       loading={!data.length}
       addPromise={(v) => Promise.resolve(v)}
       editPromise={v => Promise.resolve(v)}
+      deletePromise={v => Promise.resolve(v)}
       addHeader='Add New Person'
-      editHeader='Update Person'
+      editHeader={(p) => `Update ${p.name}`}
       reloadPromise={() => {
         toastHelper.success('New Data Loaded!');
         return Promise.resolve(getData());
@@ -37,8 +38,8 @@ const CrudTablePage: React.FC<CrudTablePageProps> = (props) => {
       dataIdProperty='id'
       columns={[
         { key: 'id', searchable: true, header: 'Id', filters: [{ type: 'NumberRange' }], formControlType: 'NumberInput', formOptions: { validators: [required()] } },
-        { key: 'name', searchable: true, header: 'Name', filters: [{ type: 'StringAll' }], formControlType: 'TextInput', formOptions: { validators: [required(), maxCharLength(200)] } },
-        { key: 'email', searchable: true, header: 'Email', filters: [{ type: 'StringAll' }], formControlType: 'TextInput', formOptions: { validators: [required(), email(), maxCharLength(2000)] } },
+        { key: 'name', searchable: true, header: 'Name', filters: [{ type: 'StringContains' }], formControlType: 'TextInput', formOptions: { validators: [required(), maxCharLength(200)] } },
+        { key: 'email', searchable: true, header: 'Email', filters: [{ type: 'StringContains' }], formControlType: 'TextInput', formOptions: { validators: [required(), email(), maxCharLength(2000)] } },
       ]}
     />
   );

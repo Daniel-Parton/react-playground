@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { RouteComponentProps, Route, Redirect } from 'react-router';
-import { faUserTie, faSignOutAlt, faClipboardList, faBorderAll } from '@fortawesome/free-solid-svg-icons';
+import { FaUserTie, FaSignOutAlt, FaClipboardList, FaBorderAll, FaChartLine, FaWpforms } from 'react-icons/fa';
 import Header from './layout/header';
 import Footer from './layout/footer';
 import { SideDrawer, ListItem } from '../shared';
@@ -10,6 +10,7 @@ import { SideBarLinkWithComponentProps } from '../shared/side-bar/side-nav-link'
 import TabsPage from './tabs';
 import FormsPage from './forms';
 import TablesPage from './tables';
+import GraphsPage from './graphs';
 
 export interface DashboardProps extends RouteComponentProps { }
 
@@ -28,9 +29,10 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
   if (pathname === '/' || pathname === '/dashboard') return <Redirect to='/dashboard/tabs' />;
 
   const navLinks: SideBarLinkWithComponentProps[] = [
-    { text: 'Tabs', icon: faBorderAll, target: `${path}/tabs`, component: TabsPage },
-    { text: 'Forms', icon: faClipboardList, target: `${path}/forms`, component: FormsPage },
-    { text: 'Tables', icon: faClipboardList, target: `${path}/tables`, component: TablesPage }
+    { text: 'Tabs', icon: FaBorderAll, target: `${path}/tabs`, component: TabsPage },
+    { text: 'Forms', icon: FaWpforms, target: `${path}/forms`, component: FormsPage },
+    { text: 'Tables', icon: FaClipboardList, target: `${path}/tables`, component: TablesPage },
+    { text: 'Graphs', icon: FaChartLine, target: `${path}/graphs`, component: GraphsPage }
   ];
 
 
@@ -42,11 +44,11 @@ const Dashboard: React.FC<DashboardProps> = (props) => {
         heading='User Settings'
         topContent={(
           <div className='user-info p-3'>
-            <ListItem icon={faUserTie} primaryText='Guest' />
+            <ListItem icon={FaUserTie} primaryText='Guest' />
           </div>
         )}
         links={[
-          { onClick: () => { }, text: 'Logout', icon: faSignOutAlt }
+          { onClick: () => { }, text: 'Logout', icon: FaSignOutAlt }
         ]}
         onClose={() => setState((ps) => ({ ...ps, rightSideBarOpen: false }))}
       />

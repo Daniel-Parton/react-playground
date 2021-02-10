@@ -1,12 +1,11 @@
 import React from "react";
 import classNames from "classnames";
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { IconType } from "react-icons";
+import { FaTimes } from "react-icons/fa";
 
 export interface ChipProps {
   className?: string
-  icon?: IconDefinition
+  icon?: IconType
   variant?: 'primary' | 'success' | 'danger' | 'warning' | 'info'
   small?: boolean
   label: string
@@ -38,11 +37,12 @@ const Chip: React.FC<ChipProps> = (props) => {
     [className!]: className !== undefined,
   });
 
+  const Icon = icon;
   return (
     <div className={classes} {...rest}>
-      {icon && <FontAwesomeIcon icon={icon} className='chip-icon' />}
+      {Icon && <Icon />}
       <span className='chip-icon-label'>{label}</span>
-      {onDelete && <FontAwesomeIcon icon={faTimes} className='chip-delete-icon' onClick={() => onDelete(label)} />}
+      {onDelete && <FaTimes className='chip-delete-icon' onClick={() => onDelete(label)} />}
     </div>
   )
 };

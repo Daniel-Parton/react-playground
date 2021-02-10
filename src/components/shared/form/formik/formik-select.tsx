@@ -1,22 +1,19 @@
 import React from "react";
-import { FormikProps } from "formik";
-import FormSelect, { FormSelectProps } from "../form-select";
-import { safeGetValue, shouldShowError, safeGetError } from "./formik-helper";
+import { useFormikWithHelper } from "./use-formik-with-helper";
+import { FormSelectProps, FormSelect } from "../form-select";
 
-export interface FormikSelectProps<TFormValues = any> extends FormSelectProps<TFormValues> {
-  formikProps: FormikProps<TFormValues>
-}
+export function FormikSelect<TFormValues = any>(props: FormSelectProps<TFormValues>) {
 
-function FormikSelect<TFormValues = any>(props: FormikSelectProps<TFormValues>) {
+  const { name, onChange, onBlur, ...rest } = props;
+  const formik = useFormikWithHelper<TFormValues>();
 
-  const { formikProps, name, onChange, onBlur, ...rest } = props;
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (formikProps && formikProps.handleChange) formikProps.handleChange(event);
+    formik.handleChange(event);
     if (onChange) onChange(event);
   };
 
   const handleBlur = (event: any) => {
-    if (formikProps && formikProps.handleBlur) formikProps.handleBlur(event);
+    formik.handleBlur(event);
     if (onBlur) onBlur(event);
   };
 
@@ -24,13 +21,11 @@ function FormikSelect<TFormValues = any>(props: FormikSelectProps<TFormValues>) 
     <FormSelect<TFormValues>
       {...rest}
       name={name}
-      value={safeGetValue(formikProps, name)}
+      value={formik.getValueFromName(name)}
       onChange={handleChange}
       onBlur={handleBlur}
-      showError={shouldShowError(formikProps, name)}
-      error={safeGetError(formikProps, name)}
+      showError={formik.shouldShowError(name)}
+      error={formik.getErrorFromName(name)}
     />
   );
 }
-
-export default FormikSelect;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import { IconDefinition, faSync, faPlus, faSearch, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { IconType } from 'react-icons';
+import { FaSync, FaPlus, FaSearch, FaFilter } from 'react-icons/fa';
 import { Button, FormInput, ButtonConfirm } from '../../..';
 import { ButtonProps } from '../../../buttons/button';
 import { ButtonVariant } from '../../../buttons/shared';
@@ -11,7 +12,7 @@ import { DataTableButtonOptions } from '../data-table-shared-types';
 export interface DataTableToolBarButton {
   className?: string
   key: string
-  icon: IconDefinition
+  icon: IconType
   toolTip?: string
   variant?: ButtonVariant
   onClick?: () => void
@@ -45,10 +46,10 @@ const DataTableToolbar: React.FC<DataTableToolBarProps> = (props: DataTableToolB
 
   const toolbarActionButtons: DataTableToolBarButton[] = [];
   if (FilterHelper.tableHasFilterValues(filterValues)) {
-    toolbarActionButtons.push({ className: 'btn-success', key: 'Filter', icon: faFilter, onClick: () => setFilterModalOpen(true), toolTip: 'View Filters' });
+    toolbarActionButtons.push({ className: 'btn-success', key: 'Filter', icon: FaFilter, onClick: () => setFilterModalOpen(true), toolTip: 'View Filters' });
   }
-  if (onReload) toolbarActionButtons.push({ key: 'Reload', icon: faSync, onClick: onReload, toolTip: 'Reload' });
-  if (onAdd) toolbarActionButtons.push({ key: 'Add', icon: faPlus, onClick: onAdd, toolTip: 'Add' });
+  if (onReload) toolbarActionButtons.push({ key: 'Reload', icon: FaSync, onClick: onReload, toolTip: 'Reload' });
+  if (onAdd) toolbarActionButtons.push({ key: 'Add', icon: FaPlus, onClick: onAdd, toolTip: 'Add' });
   if (actionButtons && actionButtons.length) {
     actionButtons.forEach(e => toolbarActionButtons.push(e))
   }
@@ -89,9 +90,9 @@ const DataTableToolbar: React.FC<DataTableToolBarProps> = (props: DataTableToolB
             <FormInput
               name='data-table-toolbar-search'
               className='data-table-toolbar-search mb-0'
-              iconLeft={faSearch}
+              iconLeft={FaSearch}
               value={search}
-              onChange={(e) => handleSearch(e.currentTarget.value)}
+              onChange={(e: any) => handleSearch(e.currentTarget.value)}
               showLoadingSkeleton={loading}
             />
           </div>

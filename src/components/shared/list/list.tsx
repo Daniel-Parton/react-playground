@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import ListItem, { ListAction } from "./list-item";
-import { faSync, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FaSync, FaPlus } from "react-icons/fa";
 import { Button, BlockUi } from "..";
 import ListItemSkeleton from "../loading-skeleton/list-item-skeleton";
 
@@ -43,10 +43,10 @@ function List<T = any>(props: ListProps<T>) {
 
   const compiledActions: ListAction[] = !listActions || !listActions.length ? [] : [...listActions];
   if (onReload) {
-    compiledActions.push({ icon: faSync, toolTip: 'Reload', onClick: onReload });
+    compiledActions.push({ icon: FaSync, toolTip: 'Reload', onClick: onReload });
   }
   if (onAdd) {
-    compiledActions.push({ icon: faPlus, toolTip: addTooltip ?? 'Add', onClick: onAdd });
+    compiledActions.push({ icon: FaPlus, toolTip: addTooltip ?? 'Add', onClick: onAdd });
   }
 
   if (disabled && compiledActions.length) {

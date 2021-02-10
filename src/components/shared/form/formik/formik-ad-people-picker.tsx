@@ -1,34 +1,23 @@
 import React from "react";
-import { FormikProps } from "formik";
-import { safeGetError, safeGetTouched, safeGetValue } from "./formik-helper";
+import { useFormikWithHelper } from "./use-formik-with-helper";
 import FormAdPeoplePicker, { FormAdPeoplePickerProps } from "../form-ad-people-picker";
 import { ActionMeta } from "react-select";
 
-interface FormikAdPeoplePickerProps<T> extends FormAdPeoplePickerProps {
-  formikProps: FormikProps<T>
-}
+export function FormikAdPeoplePicker<T = any>(props: FormAdPeoplePickerProps<T>) {
 
-const FormikAdPeoplePicker: React.FC<FormikAdPeoplePickerProps<any>> = (props) => {
+  const { name, onChange, onBlur, ...rest } = props;
 
-  const { formikProps, name, onChange, onBlur, ...rest } = props;
-
+  const formik = useFormikWithHelper<T>();
   const handleChange = (values: any, action: ActionMeta<any>) => {
-    const { onChange, formikProps } = props;
 
-    if (formikProps) {
-      formikProps.setFieldValue(props.name, values);
-      formikProps.setFieldTouched(props.name);
-    }
+    formik.setFieldValue(name as any, values);
+    formik.setFieldTouched(name as any);
 
     if (onChange) onChange(values, action);
   }
 
   const handleBlur = (e: any) => {
-    const { onBlur, formikProps } = props;
-    if (formikProps && formikProps.handleBlur) {
-      formikProps.handleBlur(e);
-    }
-
+    formik.handleBlur(e);
     if (onBlur) onBlur(e);
   }
 
@@ -37,13 +26,11 @@ const FormikAdPeoplePicker: React.FC<FormikAdPeoplePickerProps<any>> = (props) =
       name={name}
       onChange={handleChange}
       onBlur={(e: any) => handleBlur(e)}
-      value={safeGetValue(formikProps, name)}
-      showError={safeGetTouched(formikProps, name)}
-      error={safeGetError(formikProps, name)}
-      defaultValue={safeGetValue(formikProps, name)}
+      value={formik.getValueFromName(name)}
+      showError={formik.shouldShowError(name)}
+      error={formik.getErrorFromName(name)}
+      defaultValue={formik.getValueFromName(name)}
       {...rest}
     />
   )
 };
-
-export default FormikAdPeoplePicker;

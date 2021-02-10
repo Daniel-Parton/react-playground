@@ -1,11 +1,10 @@
 import { SelectComponents } from "react-select/src/components";
 import { OptionTypeBase } from "react-select";
-
 interface GetComponentsOptions {
   hideDropdown?: boolean
 }
 
-const getComponents = (components: SelectComponents<OptionTypeBase>, options?: GetComponentsOptions) => {
+export const getComponents = (components: SelectComponents<OptionTypeBase>, options?: GetComponentsOptions) => {
 
   const returnComponents = { ...components };
   if (options?.hideDropdown) {
@@ -13,8 +12,4 @@ const getComponents = (components: SelectComponents<OptionTypeBase>, options?: G
   }
 
   return returnComponents;
-}
-
-export default {
-  getComponents
 }

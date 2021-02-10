@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimesCircle, faInfoCircle, faExclamationCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { FaTimesCircle, FaInfoCircle, FaExclamationCircle, FaCheckCircle } from 'react-icons/fa';
 
 interface AlertProps {
   className?: string
@@ -26,10 +25,10 @@ const Alert: React.FC<AlertProps> = ({ id, center, className, message, variant =
 
   return (
     <div className={compiledClass} id={id} {...rest}>
-      {variant === 'error' && <FontAwesomeIcon size='xs' className='alert-icon' icon={faTimesCircle} />}
-      {variant === 'warning' && <FontAwesomeIcon className='alert-icon' icon={faExclamationCircle} />}
-      {variant === 'info' && <FontAwesomeIcon className='alert-icon' icon={faInfoCircle} />}
-      {variant === 'success' && <FontAwesomeIcon className='alert-icon' icon={faCheckCircle} />}
+      {variant === 'error' && <FaTimesCircle />}
+      {variant === 'warning' && <FaExclamationCircle />}
+      {variant === 'info' && <FaInfoCircle />}
+      {variant === 'success' && <FaCheckCircle />}
       {message}
       {children}
     </div>

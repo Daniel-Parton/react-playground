@@ -63,7 +63,7 @@ function AutoForm<TData = any, TSuccessResponse = any>(props: AutoFormProps<TDat
     >
       {(formikProps) => (
         <BlockUi blocking={formikProps.isSubmitting} text={submittingMessage}>
-          <Form variant={variant} id={formId} onSubmit={(e) => handleSubmit(e, formikProps)} className={className}>
+          <Form variant={variant} id={formId} onSubmit={(e: any) => handleSubmit(e, formikProps)} className={className}>
             {header && <h5 className={headerCentre ? 'text-center' : undefined}>{header}</h5>}
             {topContent}
             {rows.map((row, ri) => (

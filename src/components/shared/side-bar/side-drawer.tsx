@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import Button from '../buttons/button';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FaTimes } from 'react-icons/fa';
 import SideBarLink, { SideBarLinkProps } from './side-nav-link';
 import SideBarMenuItem from './side-bar-menu-item';
 
@@ -50,7 +50,7 @@ const SideBarDrawer: React.FC<SideBarDrawerProps> = ({ links, heading, header, o
           <div className='side-drawer-header-title'><h5>{heading}</h5></div>
           {header}
           <div className='side-drawer-header-close'>
-            <Button icon={faTimes} onClick={onClose} variant='transparent' />
+            <Button icon={FaTimes} onClick={onClose} variant='transparent' />
           </div>
         </div>
         <hr />

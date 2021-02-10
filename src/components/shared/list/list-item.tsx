@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconType } from 'react-icons';
+
 import { SizeProp } from "@fortawesome/fontawesome-svg-core";
 import { Button } from "..";
 import { ButtonVariant } from "../buttons/shared";
@@ -9,7 +9,7 @@ import { ButtonVariant } from "../buttons/shared";
 export interface ListAction {
   toolTip: string
   onClick: () => void
-  icon: IconDefinition
+  icon: IconType
   variant?: ButtonVariant
   small?: boolean
   disabled?: boolean
@@ -19,7 +19,7 @@ interface ListItemProps {
   disabled?: boolean
   borderLeft?: boolean
   className?: string
-  icon?: IconDefinition
+  icon?: IconType
   iconSize?: SizeProp
   primaryText?: string
   secondaryText?: string
@@ -49,10 +49,11 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 
   const hasActions = actions && actions.length ? true : false;
 
+  const Icon = icon;
   return (
     <div className={classes} {...rest}>
-      {icon && (
-        <div className={listItemClasses.iconContainer}><FontAwesomeIcon size='lg' icon={icon} /></div>
+      {Icon && (
+        <div className={listItemClasses.iconContainer}><Icon /></div>
       )}
       <div className={listItemClasses.contentContainer}>
         <div className={listItemClasses.textContainer}>

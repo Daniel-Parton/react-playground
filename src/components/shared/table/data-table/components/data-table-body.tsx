@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { DataTableColumnDefinition } from '..';
+import { DataTableColumnDefinition } from '../uncontrolled-data-table';
 import { DataTableAction } from '../../data-table-actions';
 import DataTableBodyRow from './data-table-body-row';
 import { useDataTableSelectedContext } from '../contexts';

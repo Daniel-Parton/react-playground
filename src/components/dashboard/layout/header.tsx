@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar, Nav, NavItem, NavbarBrand } from "reactstrap";
-import { faIdBadge } from '@fortawesome/free-solid-svg-icons';
+import { FaIdBadge } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import { Button, ButtonHamburger } from "../../shared";
 
@@ -20,7 +20,7 @@ const Header: React.FC<NavBarProps> = ({ brandText, onToggleLeftSideBar, onToggl
       <Nav className="ml-auto" navbar>
         <NavItem>
           <span>Guest</span>
-          <Button variant='transparent' iconVariant='primary' iconSize='lg' icon={faIdBadge} onClick={onToggleRightSideBar} />
+          <Button variant='transparent' iconVariant='primary' icon={FaIdBadge} onClick={onToggleRightSideBar} />
         </NavItem>
       </Nav>
     </Navbar>

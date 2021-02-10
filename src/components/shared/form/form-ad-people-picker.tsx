@@ -3,12 +3,13 @@ import { UserAgentApplication } from "msal";
 import classNames from "classnames";
 import makeAnimated from 'react-select/animated';
 
-import FormAsyncSelect, { FormAsyncSelectProps } from "./form-async-select";
+import { FormAsyncSelect, FormAsyncSelectProps } from "./form-async-select";
 import * as GraphService from '../../../services/microsoft-graph-service';
 
 type SearchType = 'user' | 'group' | 'user-and-group';
 type AdType = 'user' | 'group';
-export interface FormAdPeoplePickerProps extends Omit<FormAsyncSelectProps, 'searchPromise'> {
+export interface FormAdPeoplePickerProps<T = any> extends Omit<FormAsyncSelectProps, 'searchPromise' | 'name'> {
+  name: keyof T
   userAgent: UserAgentApplication
   searchType: 'user' | 'group' | 'user-and-group'
 }
@@ -19,9 +20,9 @@ export interface AdSearchResult {
   type: AdType
 }
 
-const FormAdPeoplePicker: React.FC<FormAdPeoplePickerProps> = (props) => {
+function FormAdPeoplePicker<T = any>(props: FormAdPeoplePickerProps<T>) {
 
-  const { className, searchType, userAgent, ...rest } = props;
+  const { className, searchType, userAgent, name, ...rest } = props;
 
   const classes = classNames({
     'form-ad-people-picker-select': true,
@@ -105,6 +106,7 @@ const FormAdPeoplePicker: React.FC<FormAdPeoplePickerProps> = (props) => {
   return (
     <FormAsyncSelect
       isMulti
+      name={name as any}
       components={components}
       className={classes}
       placeholder='Search for people...'

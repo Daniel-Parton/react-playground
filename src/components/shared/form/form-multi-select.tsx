@@ -3,11 +3,11 @@ import classNames from "classnames";
 import Select, { ActionMeta } from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { BaseFormInput } from "./form-types";
-import FormControlWrapper from "./form-control-wrapper";
-import FormErrorMessage from "./form-error";
+import { FormControlWrapper } from "./form-control-wrapper";
+import { FormError } from "./form-error";
 import { Label } from "reactstrap";
 import { OptionModel } from "../../../types/shared-types";
-import ReactSelectHelper from "./react-select-helper";
+import { getComponents } from './react-select-helper';
 
 export interface FormMultiSelectProps<TFormValues = any> extends BaseFormInput<TFormValues> {
   label?: string
@@ -22,7 +22,7 @@ export interface FormMultiSelectProps<TFormValues = any> extends BaseFormInput<T
   afterLabelContent?: any
 }
 
-const FormMultiSelect: React.FC<FormMultiSelectProps> = (props) => {
+export function FormMultiSelect<T = any>(props: FormMultiSelectProps<T>) {
 
   const { onChange, name, value, label, className, error, showError, defaultValue, afterLabelContent, disabled, ...rest } = props;
 
@@ -56,16 +56,14 @@ const FormMultiSelect: React.FC<FormMultiSelectProps> = (props) => {
         getOptionValue={(v) => v.value}
         getOptionLabel={(v) => v.label}
         onChange={handleChange}
-        components={ReactSelectHelper.getComponents(makeAnimated())}
+        components={getComponents(makeAnimated())}
         {...rest}
         isMulti
         isClearable
       />
-      <FormErrorMessage errorMessage={error} show={showError} />
+      <FormError errorMessage={error} show={showError} />
     </FormControlWrapper>
 
 
   );
 }
-
-export default FormMultiSelect;

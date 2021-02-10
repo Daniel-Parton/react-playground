@@ -1,21 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import isEqual from 'react-fast-compare';
-import classNames from 'classnames';
-import { Table } from 'reactstrap';
-import DataTableHead from './components/data-table-head';
-import DataTableBody from './components/data-table-body';
-import DataTableFilterModal from './components/data-table-filter-modal';
 import { DataTableGetterProps } from './contexts';
-import DataTableContextWrapper from './contexts/data-table-context-wrapper'
 import { DataTableAction } from '../data-table-actions';
 
-import DataTableToolbar, { DataTableToolBarProps } from './components/data-table-toolbar';
-import Pagination from '../../paging/pagination';
+import { DataTableToolBarProps } from './components/data-table-toolbar';
 import * as FilterHelper from './helpers/data-table-filter-helper';
-import * as PageHelper from './helpers/data-table-page-helper';
-import TableSkeleton from '../../loading-skeleton/table-skeleton';
-import { OrderByDirection, DataTableFilterDefinition } from './data-table-shared-types';
-import BlockUi from '../../block-ui';
+import { DataTableFilterDefinition } from './data-table-shared-types';
+import BaseDataTable from './base-data-table';
 
 export interface DataTableColumnDefinition<T> {
   key: keyof T
@@ -34,7 +25,7 @@ export interface DataTablePagingOptions {
   onPageChange?: (page: number) => void
 }
 
-export interface DataTableProps<T> {
+export interface UncontrolledDataTableProps<T> {
   small?: boolean
   blocking?: boolean
   blockingMessage?: string
@@ -52,14 +43,9 @@ export interface DataTableProps<T> {
   pageOptions?: DataTablePagingOptions
 }
 
-function DataTable<T>(props: DataTableProps<T>) {
+function UncontrolledDataTable<T>(props: UncontrolledDataTableProps<T>) {
   const { className, columns, dataIdProperty, actionsFunc, actions, actionsHeader, toolbarProps, customToolbar,
     selectable, pageOptions, loading, small, blocking, blockingMessage } = props;
-
-  const classes = classNames({
-    'data-table-container': true,
-    [className!]: className !== undefined
-  });
 
   const [state, setState] = useState<DataTableGetterProps<T>>({
     filterValues: {},
@@ -154,80 +140,58 @@ function DataTable<T>(props: DataTableProps<T>) {
     });
   }
 
-  const handleUpdateOrderBy = (ob?: any, obd?: OrderByDirection) => {
-    setState((ps) => ({ ...ps, orderBy: ob as any, orderByDirection: obd }));
+  const handleResetFilter = (closeModal: boolean) => {
+    setState((ps) => ({
+      ...ps,
+      filterValues: undefined,
+      filterModalOpen: closeModal ? false : ps.filterModalOpen
+    }));
   };
 
-  const getToolbarProps = () => {
-    let compiledToolbarProps: DataTableToolBarProps = toolbarProps ? { ...toolbarProps } : {};
-
-    //Override search in case onSearch prop provided
-    const handleSearch = (searchText: string) => {
+  const compiledToolbarProps = !toolbarProps ? undefined : { ...toolbarProps };
+  if (compiledToolbarProps) {
+    const originalOnSearch = compiledToolbarProps.onSearch;
+    compiledToolbarProps.onSearch = (searchText) => {
       setState((ps) => ({ ...ps, searchText: searchText }));
-      if (onSearch) onSearch(searchText);
+      if (originalOnSearch) originalOnSearch(searchText);
     }
-
-    const { onSearch, ...rest } = compiledToolbarProps;
-
-
-    compiledToolbarProps = { ...rest, loading: loading, onSearch: handleSearch };
-    return compiledToolbarProps
   }
 
   return (
-    <DataTableContextWrapper
-      getters={state}
-      setters={{
-        updateFilter: handleUpdateFilter,
-        removeFilter: handleRemoveFilter,
-        resetFilters: (closeModal: boolean) => setState((ps) => ({ ...ps, filterValues: undefined, filterModalOpen: closeModal ? false : ps.filterModalOpen })),
-        toggleSelectAll: handleToggleSelectAll,
-        toggleSelected: handleToggleSelected,
-        updateOrderBy: handleUpdateOrderBy,
-        setFilterModalOpen: (open) => setState(ps => ({ ...ps, filterModalOpen: open }))
+    <BaseDataTable<T>
+      {...state}
+      small={small}
+      blocking={blocking}
+      blockingMessage={blockingMessage}
+      loading={loading}
+      className={className}
+      columns={columns}
+      dataIdProperty={dataIdProperty}
+      data={state.shownData}
+      actionsHeader={actionsHeader}
+      actionsFunc={actionsFunc}
+      actions={actions}
+      toolbarProps={compiledToolbarProps}
+      customToolbar={customToolbar}
+      selectable={selectable}
+      pageOptions={!pageOptions ? undefined : {
+        itemsPerPage: pageOptions.itemsPerPage,
+        onPageChange: (p) => {
+          setState((ps) => ({ ...ps, activePage: p }));
+          if (pageOptions.onPageChange) pageOptions.onPageChange(p);
+        },
+        activePage: state.activePage,
+        filteredDataTotal: state.filteredDataTotal
       }}
-    >
-      <BlockUi blocking={blocking} text={blockingMessage}>
-        <div className={classes}>
-          <DataTableToolbar {...getToolbarProps()} />
-          {customToolbar}
-          <div className='data-table-wrapper'>
-            {loading && <TableSkeleton columnCount={columns.length} />}
-            {!loading && (
-              <Table className='data-table' responsive size={small ? 'sm' : undefined}>
-                <DataTableHead
-                  selectable={selectable}
-                  actionsHeader={actionsHeader}
-                  /* eslint-disable */
-                  hasActions={(actionsFunc || actions && actions.length) ? true : false}
-                  columns={columns}
-                />
-                <DataTableBody
-                  loading={loading}
-                  selectable={selectable}
-                  actionsFunc={actionsFunc}
-                  actions={actions}
-                  columns={columns}
-                  dataIdProperty={dataIdProperty}
-                  data={state.shownData}
-                />
-              </Table>
-            )}
-          </div>
-          {pageOptions && (
-            <Pagination
-              leftContent={<span className='mr-3'>{PageHelper.getPageDescription(state.filteredDataTotal, state.activePage, pageOptions.itemsPerPage)} </span>}
-              activePage={state.activePage}
-              itemsCountPerPage={pageOptions.itemsPerPage}
-              totalItemsCount={state.filteredDataTotal}
-              onChange={(p) => setState((ps) => ({ ...ps, activePage: p }))}
-            />
-          )}
-          <DataTableFilterModal columns={columns} />
-        </div>
-      </BlockUi>
-    </DataTableContextWrapper>
+      onResetFilter={handleResetFilter}
+      onFilterUpdate={handleUpdateFilter}
+      onFilterRemove={handleRemoveFilter}
+      onToggleSelected={handleToggleSelected}
+      onToggleSelectAll={handleToggleSelectAll}
+      onOrderBy={(ob, d) => setState((ps) => ({ ...ps, orderBy: ob as any, orderByDirection: d }))}
+      onFilterModalOpen={(open) => setState(ps => ({ ...ps, filterModalOpen: open }))}
+    />
   )
 }
 
-export default DataTable as <T>(props: DataTableProps<T>) => JSX.Element;
+export default UncontrolledDataTable as <T>(props: UncontrolledDataTableProps<T>) => JSX.Element;
